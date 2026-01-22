@@ -1,12 +1,37 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\racep\\source\\repos\\longana\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\racep\\source\\repos\\Longana\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E14C722D-0FDE-4E27-84B2-0659E15EB89E}|Longana\\Longana.vcxproj|C:\\Users\\racep\\source\\repos\\Longana\\Longana\\Longana.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E14C722D-0FDE-4E27-84B2-0659E15EB89E}|Longana\\Longana.vcxproj|solutionrelative:Longana\\Longana.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Longana.cpp",
+              "DocumentMoniker": "C:\\Users\\racep\\source\\repos\\Longana\\Longana\\Longana.cpp",
+              "RelativeDocumentMoniker": "Longana\\Longana.cpp",
+              "ToolTip": "C:\\Users\\racep\\source\\repos\\Longana\\Longana\\Longana.cpp",
+              "RelativeToolTip": "Longana\\Longana.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-22T01:21:37.439Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

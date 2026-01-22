@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Longana/Longana.vcxproj" />
+  <Project Path="Longana/Longana.vcxproj" Id="e14c722d-0fde-4e27-84b2-0659e15eb89e" />
 </Solution>
