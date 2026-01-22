@@ -127,8 +127,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Computer.cpp" />
+    <ClCompile Include="Hand.cpp" />
+    <ClCompile Include="Human.cpp" />
     <ClCompile Include="Layout.cpp" />
+    <ClCompile Include="LayoutView.cpp" />
     <ClCompile Include="Longana.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Round.cpp" />
+    <ClCompile Include="Stock.cpp" />
+    <ClCompile Include="Tournament.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Computer.h" />
+    <ClInclude Include="Hand.h" />
+    <ClInclude Include="Human.h" />
+    <ClInclude Include="Layout.h" />
+    <ClInclude Include="LayoutView.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Round.h" />
+    <ClInclude Include="Stock.h" />
+    <ClInclude Include="Tournament.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
