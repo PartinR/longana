@@ -26,7 +26,7 @@ public:
     ~Stock();
 
     /* --- Selectors --- */
-    
+
     /// <summary>
     /// Returns the number of tiles stored in the object.
     /// </summary>
