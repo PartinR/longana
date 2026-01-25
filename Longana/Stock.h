@@ -16,7 +16,14 @@ public:
     /// <summary>
     /// Default constructs a Stock object.
     /// </summary>
-    Stock();
+    Stock() : m_tiles() {
+        // Create all unique tiles for a standard double-six domino set.
+        for (int left = 0; left <= 6; ++left) {
+            for (int right = left; right <= 6; ++right) {
+                m_tiles.emplace_back(left, right);
+            }
+        }
+    }
 
     /* --- Destructor --- */
 
