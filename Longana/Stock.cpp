@@ -5,19 +5,6 @@
 
 /*
  * Psuedocode:
- * Create all unique tiles for a standard double-six domino set.
- */
-Stock::Stock() {
-    // Create all unique tiles for a standard double-six domino set.
-    for (int left = 0; left <= 6; ++left) {
-        for (int right = left; right <= 6; ++right) {
-            m_tiles.emplace_back(left, right);
-        }
-    }
-}
-
-/*
- * Psuedocode:
  * If m_tiles is empty, return false.
  * Else, copy the last tile in m_tiles to destination, remove it from m_tiles, and return true.
  */
