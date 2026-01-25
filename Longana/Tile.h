@@ -22,6 +22,10 @@ public:
     Tile(int left, int right);
 
     /* --- Destructor --- */
+
+    /// <summary>
+    /// Destructor for the Tile class. Destroys the object; this implementation performs no special cleanup.
+    /// </summary>
     ~Tile() {}
 
     /* --- Selectors --- */
