@@ -18,14 +18,6 @@ Stock::Stock() {
 
 /*
  * Psuedocode:
- * No special cleanup needed. std::vector will handle its own memory.
- */
-Stock::~Stock() {
-    // No special cleanup needed. std::vector will handle its own memory.
-}
-
-/*
- * Psuedocode:
  * If m_tiles is empty, return false.
  * Else, copy the last tile in m_tiles to destination, remove it from m_tiles, and return true.
  */
