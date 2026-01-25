@@ -23,7 +23,7 @@ public:
     /// <summary>
     /// Destructor for the Stock class. Performs cleanup and releases any resources when a Stock object is destroyed.
     /// </summary>
-    ~Stock();
+    ~Stock() {}
 
     /* --- Selectors --- */
 
