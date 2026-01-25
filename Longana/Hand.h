@@ -11,13 +11,32 @@
 class Hand {
 public:
     /* --- Constructor --- */
-    Hand();
+
+    /// <summary>
+    /// Default constructor for the Hand class that initializes a Hand object.
+    /// </summary>
+    Hand() : m_tiles() {}
 
     /* --- Destructor --- */
+
+    /// <summary>
+    /// Destructor for the Hand class. Performs cleanup when a Hand object is destroyed.
+    /// </summary>
     ~Hand() {}
 
     /* --- Selectors --- */
 
+    /// <summary>
+    /// Inline const member function that returns the number of tiles stored in m_tiles.
+    /// </summary>
+    /// <returns>The number of tiles as an int.</returns>
+    inline int getSize() const { return m_tiles.size(); }
+
+    /// <summary>
+    /// Returns the score of this hand.
+    /// </summary>
+    /// <returns>The hand's score as an integer.</returns>
+    int getHandScore() const;
 
     /* --- Mutators --- */
 
@@ -33,7 +52,7 @@ public:
     /// </summary>
     /// <param name="tile">The tile to remove.</param>
     /// <returns>true if the tile was successfully removed; false otherwise.</returns>
-    bool removeTile(const Tile& tile);
+    bool playTile(int index, Tile& outTile);
 
     /* --- Utility Functions --- */
 
