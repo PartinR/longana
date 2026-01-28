@@ -83,7 +83,7 @@ bool Layout::isLegalMove(const Tile& tile, char side) const {
  */
 bool Layout::findValidMoves(const Hand& hand) const {
     if (isEmpty()) {
-        return;
+        return true;
     }
 
     bool foundMove = false;
