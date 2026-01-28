@@ -33,6 +33,13 @@ public:
     inline int getSize() const { return m_tiles.size(); }
 
     /// <summary>
+    /// Returns a copy of the tile at the specified index.
+    /// </summary>
+    /// <param name="index">Zero-based index of the tile to retrieve. Behavior is undefined if the index is out of range.</param>
+    /// <returns>A Tile object at the given index (returned by value).</returns>
+    inline Tile getTileAtIndex(int index) const { return m_tiles[index]; }
+
+    /// <summary>
     /// Returns the score of this hand.
     /// </summary>
     /// <returns>The hand's score as an integer.</returns>
