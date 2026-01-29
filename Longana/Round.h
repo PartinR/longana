@@ -13,7 +13,7 @@ public:
     /// <summary>
     /// Default constructor for the Round class that initializes a Round object.
     /// </summary>
-    Round(int roundNumber, int humanScore, int computerScore);
+    Round(int roundNumber, int tournamentTargetScore, int humanScore, int computerScore);
 
     /* --- Destructor --- */
 
