@@ -95,6 +95,21 @@ public:
     ********************************************************************* */
     bool drawTile(Tile& destination);
 
+    /* *********************************************************************
+    Function Name: removeSpecificTile
+    Purpose: Searches the boneyard for a specific tile (the Engine) and
+         removes it to prevent duplicate tiles on the board.
+    Parameters: target, a Tile object passed by const reference.
+    Return Value: true if found and removed, false otherwise.
+    Algorithm:
+         1. Loop through the m_tiles vector.
+         2. Compare each tile to the target using the == operator.
+         3. If a match is found, use m_tiles.erase() with the current iterator.
+         4. Return true if removed, false if the tile wasn't in the stock.
+    Reference: None
+    ********************************************************************* */
+    bool removeSpecificTile(const Tile& target);
+
     /* --- Utility Functions --- */
 
     /* *********************************************************************

@@ -91,3 +91,29 @@ void Stock::printStock() const {
 
     std::cout << std::endl;
 }
+
+/* *********************************************************************
+Function Name: removeSpecificTile
+Purpose: Searches the boneyard for a specific tile and removes it.
+         Used to ensure the Engine is not duplicated if it starts in the stock.
+Parameters:
+         target, a Tile object passed by const reference.
+Return Value: true if found and removed, false otherwise.
+Algorithm:
+         1. Iterate through the m_tiles vector using an index.
+         2. Compare each tile to the target tile using the == operator.
+         3. If a match is found, use the erase method with an iterator
+            at the current index to remove the tile.
+         4. Return true if removed; return false if the loop completes
+            without finding the target.
+Reference: None
+********************************************************************* */
+bool Stock::removeSpecificTile(const Tile& target) {
+    for (int i = 0; i < m_tiles.size(); ++i) {
+        if (m_tiles[i] == target) {
+            m_tiles.erase(m_tiles.begin() + i);
+            return true;
+        }
+    }
+    return false;
+}
