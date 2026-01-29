@@ -62,6 +62,12 @@ public:
     /// <returns>true if the tile was added successfully; false otherwise.</returns>
     bool addRightTile(const Tile& tile);
 
+    /// <summary>
+    /// Places the starting engine tile on the empty board.
+    /// </summary>
+    /// <param name="t">The engine tile to place.</param>
+    inline void setEngine(const Tile& t) { m_layout.push_back(t); }
+
     /* --- Utility Functions --- */
 
     /// <summary>
