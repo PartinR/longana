@@ -87,6 +87,11 @@ Round::Round(int roundNumber, int tournamentTargetScore, int humanScore, int com
     // Handle case where engine is in the boneyard rather than a player's hand
     if (!engineFound) {
         std::cout << " >> Neither player holds the Engine " << enginePips << "-" << enginePips << ".\n";
+
+        // Remove the actual tile from the stock so it isn't drawn later
+        m_stock.removeSpecificTile(engine);
+
+        // Place the engine on the layout to start the round
         m_layout.setEngine(engine);
         m_isHumanTurn = true;
         std::cout << " >> Engine placed from boneyard. Human starts.\n";
