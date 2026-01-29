@@ -1,40 +1,84 @@
 #ifndef LAYOUTVIEW_H
 #define LAYOUTVIEW_H
 
+/************************************************************
+ * Name:  Race Benjamin Partin                              *
+ * Project: Project 1 (Longana)                             *
+ * Class:  CMPS 366 - OPL                                   *
+ * Date:  02/12/2026                                        *
+ ************************************************************/
+
 #include <string>
 #include "Stock.h"
 #include "Layout.h"
 #include "Hand.h"
 
+ /* *********************************************************************
+ Class Name: LayoutView
+ Purpose: Acts as the "View" component in the application. It is strictly
+          responsible for handling output to the console. It decouples the
+          game logic from the visualization logic by providing specific
+          functions to render the Board, Hands, and status messages.
+ ********************************************************************* */
 class LayoutView {
 public:
 
     /* --- Utility Functions --- */
 
-    /// <summary>
-    /// Display a header for the given round using the provided engine value and stock information. This member function does not modify the object.
-    /// </summary>
-    /// <param name="roundNumber">The current round number to display in the header.</param>
-    /// <param name="engineValue">The engine's current value or identifier to include in the header.</param>
-    /// <param name="stock">A const reference to a Stock object providing additional information to show in the header.</param>
+    /* *********************************************************************
+    Function Name: displayHeader
+    Purpose: Prints the standard header information at the start of a round
+             or turn, including the Round Number, the Engine being played,
+             and the status of the Boneyard.
+    Parameters:
+             roundNumber, an integer passed by value. The current round index.
+             engineValue, an integer passed by value. The pip value of the engine (e.g., 6).
+             stock, a Stock object passed by const reference. Used to display the boneyard contents.
+    Return Value: None (void)
+    Algorithm:
+             1. Print formatted lines for Round Number and Engine.
+             2. Delegate to stock.printStock() (or similar) to display the boneyard.
+    Reference: None
+    ********************************************************************* */
     void displayHeader(int roundNumber, int engineValue, const Stock& stock) const;
 
-    /// <summary>
-    /// Displays or renders the board using the provided layout. This const member function does not modify the object.
-    /// </summary>
-    /// <param name="layout">A const reference to the Layout that describes the board state to display.</param>
+    /* *********************************************************************
+    Function Name: displayBoard
+    Purpose: Renders the central game board (the layout) to the console.
+    Parameters:
+             layout, a Layout object passed by const reference. The board state to render.
+    Return Value: None (void)
+    Algorithm:
+             1. Print a label (e.g., "Layout:").
+             2. Call the layout object's internal display function (layout.displayLayout()).
+    Reference: None
+    ********************************************************************* */
     void displayBoard(const Layout& layout) const;
 
-    /// <summary>
-    /// Displays the provided Hand (e.g., prints or renders its contents) without modifying it.
-    /// </summary>
-    /// <param name="hand">The Hand to display; passed by const reference and not modified.</param>
+    /* *********************************************************************
+    Function Name: displayHand
+    Purpose: Renders a specific player's hand to the console.
+    Parameters:
+             hand, a Hand object passed by const reference. The hand to display.
+    Return Value: None (void)
+    Algorithm:
+             1. Call the hand object's internal display function (hand.displayHand()).
+    Reference: None
+    ********************************************************************* */
     void displayHand(const Hand& hand) const;
 
-    /// <summary>
-    /// Prints the provided message. This is a const member function and does not modify the object's state.
-    /// </summary>
-    /// <param name="msg">The message to print.</param>
+    /* *********************************************************************
+    Function Name: printMsg
+    Purpose: A generic utility to print a string message to the console.
+             Used for status updates (e.g., "Player Passed", "Invalid Input").
+    Parameters:
+             msg, a std::string passed by const reference. The message to print.
+    Return Value: None (void)
+    Algorithm:
+             1. Send the msg string to standard output (std::cout).
+             2. Append a newline if necessary.
+    Reference: None
+    ********************************************************************* */
     void printMsg(const std::string& msg) const;
 
 };

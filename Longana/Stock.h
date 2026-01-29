@@ -1,23 +1,41 @@
 #ifndef STOCK_H
 #define STOCK_H
 
+/************************************************************
+ * Name:  Race Benjamin Partin                              *
+ * Project: Project 1 (Longana)                             *
+ * Class:  CMPS 366 - OPL                                   *
+ * Date:  02/12/2026                                        *
+ ************************************************************/
+
 #include <vector>
 #include "Tile.h"
 
-/**
- * Class Name: Stock
- * Purpose: Handles the 'Boneyard' or stock of domino tiles in a Longana game.
- * Handles tile creation, shuffling, and drawing tiles.
- */
+ /* *********************************************************************
+ Class Name: Stock
+ Purpose: Represents the 'Boneyard' in a Longana game. This class manages
+          the pool of available domino tiles, including their initial
+          generation (a standard double-six set), shuffling, and the
+          mechanism for players to draw tiles during a round.
+ ********************************************************************* */
 class Stock {
 public:
     /* --- Constructor --- */
 
-    /// <summary>
-    /// Default constructs a Stock object.
-    /// </summary>
+    /* *********************************************************************
+    Function Name: Stock
+    Purpose: Default constructor. Initializes a complete double-six domino set.
+    Parameters: None
+    Return Value: None
+    Algorithm:
+             1. Clear the m_tiles vector.
+             2. Use a nested loop to iterate through pip values 0 to 6.
+             3. Generate unique pairs (left, right) where right >= left to
+                avoid duplicate tiles (e.g., [1|2] and [2|1] are one tile).
+             4. Store each generated Tile in the m_tiles vector.
+    Reference: None
+    ********************************************************************* */
     Stock() : m_tiles() {
-        // Create all unique tiles for a standard double-six domino set.
         for (int left = 0; left <= 6; ++left) {
             for (int right = left; right <= 6; ++right) {
                 m_tiles.emplace_back(left, right);
@@ -27,48 +45,87 @@ public:
 
     /* --- Destructor --- */
 
-    /// <summary>
-    /// Destructor for the Stock class. Performs cleanup and releases any resources when a Stock object is destroyed.
-    /// </summary>
+    /* *********************************************************************
+    Function Name: ~Stock
+    Purpose: Destructor. Cleans up the Stock object upon destruction.
+    Parameters: None
+    Return Value: None
+    Algorithm: Standard vector destructor handles memory cleanup automatically.
+    Reference: None
+    ********************************************************************* */
     ~Stock() {}
 
     /* --- Selectors --- */
 
-    /// <summary>
-    /// Returns the number of tiles stored in the object.
-    /// </summary>
-    /// <returns>The number of elements in m_tiles, returned as an int. The method is const and does not modify the object.</returns>
+    /* *********************************************************************
+    Function Name: getSize
+    Purpose: To get the current count of tiles remaining in the boneyard.
+    Parameters: None
+    Return Value: An integer representing the number of tiles available.
+    Algorithm: Return static_cast<int>(m_tiles.size()).
+    Reference: None
+    ********************************************************************* */
     inline int getSize() const { return static_cast<int>(m_tiles.size()); }
 
-    /// <summary>
-    /// Checks whether the object's tile container is empty.
-    /// </summary>
-    /// <returns>true if the underlying tile container (m_tiles) contains no elements; otherwise false.</returns>
+    /* *********************************************************************
+    Function Name: isEmpty
+    Purpose: Checks if the boneyard has run out of tiles.
+    Parameters: None
+    Return Value: true if empty, false otherwise.
+    Algorithm: Return m_tiles.empty().
+    Reference: None
+    ********************************************************************* */
     inline bool isEmpty() const { return m_tiles.empty(); }
 
     /* --- Mutators --- */
 
-    /// <summary>
-    /// Renders or copies a tile into the provided destination object.
-    /// </summary>
-    /// <param name="destination">A reference to a Tile that will be populated or updated with the drawn tile data.</param>
-    /// <returns>true if the tile was drawn successfully; false otherwise.</returns>
+    /* *********************************************************************
+    Function Name: drawTile
+    Purpose: Removes the top tile from the stock and provides it to the caller.
+    Parameters:
+             destination, a Tile object passed by reference. This object is
+                          updated with the values of the drawn tile.
+    Return Value: true if a tile was successfully drawn, false if the stock was empty.
+    Algorithm:
+             1. Check if m_tiles is empty.
+             2. If not empty, assign the last tile in the vector to destination.
+             3. Remove the last tile from the vector using pop_back().
+             4. Return true.
+    Reference: None
+    ********************************************************************* */
     bool drawTile(Tile& destination);
 
     /* --- Utility Functions --- */
 
-    /// <summary>
-    /// Performs a shuffling operation.
-    /// </summary>
+    /* *********************************************************************
+    Function Name: shuffle
+    Purpose: Randomizes the order of the tiles in the stock to ensure
+             unpredictable dealing and drawing.
+    Parameters: None
+    Return Value: None (void)
+    Algorithm:
+             1. Use a random number generator (e.g., std::shuffle) combined
+                with a random seed.
+             2. Reorder the elements within the m_tiles vector.
+    Reference: None
+    ********************************************************************* */
     void shuffle();
 
-    /// <summary>
-    /// Prints all tiles currently in the boneyard to the console.
-    /// Used for the game status display.
-    /// </summary>
+    /* *********************************************************************
+    Function Name: printStock
+    Purpose: Displays all tiles currently in the boneyard. This is required
+             by the project guidelines to verify game state correctness.
+    Parameters: None
+    Return Value: None (void)
+    Algorithm:
+             1. Iterate through the m_tiles vector.
+             2. Print the string representation of each tile to the console.
+    Reference: None
+    ********************************************************************* */
     void printStock() const;
 
 private:
+    // A vector holding the pool of available tiles
     std::vector<Tile> m_tiles;
 
 };
