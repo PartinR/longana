@@ -11,6 +11,7 @@
  * Print round number, engine value, and stock size
  */
 void LayoutView::displayHeader(int roundNumber, int engineValue, const Stock& stock) const {
+    std::cout << std::endl;
     std::cout << "=== Round " << roundNumber << " ===" << std::endl;
     std::cout << "Engine Value: " << engineValue << std::endl;
     std::cout << "Stock Size: " << stock.getSize() << " tiles remaining" << std::endl;

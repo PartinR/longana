@@ -33,6 +33,12 @@ public:
     inline int getSize() const { return m_tiles.size(); }
 
     /// <summary>
+    /// Checks whether the object's tile collection is empty.
+    /// </summary>
+    /// <returns>true if there are no tiles (m_tiles is empty); otherwise false.</returns>
+    inline bool isEmpty() const { return m_tiles.empty(); }
+
+    /// <summary>
     /// Returns a copy of the tile at the specified index.
     /// </summary>
     /// <param name="index">Zero-based index of the tile to retrieve. Behavior is undefined if the index is out of range.</param>
