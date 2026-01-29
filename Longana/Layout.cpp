@@ -106,5 +106,4 @@ void Layout::displayLayout() const {
     for (const Tile& tile : m_layout) {
         std::cout << "[" << tile.getLeftPips() << "|" << tile.getRightPips() << "] ";
     }
-    std::cout << std::endl;
 }
