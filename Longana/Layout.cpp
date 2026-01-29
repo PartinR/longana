@@ -3,12 +3,14 @@
 #include "Hand.h"
 #include "Tile.h"
 
+
 /*
  * Psuedocode:
  * ifEmpty, then add tile to back and return true
  * else check if leftPips or rightPips match leftEdge
  * if rightPips matches, flip tile before adding
  */
+
 bool Layout::addLeftTile(const Tile& tile) {
     if (isEmpty()) {
         m_layout.push_front(tile);
@@ -29,12 +31,14 @@ bool Layout::addLeftTile(const Tile& tile) {
     return false;
 }
 
+
 /*
  * Psuedocode:
  * ifEmpty, then add tile to back and return true
  * else check if leftPips or rightPips match rightEdge
  * if leftPips matches, flip tile before adding
  */
+
 bool Layout::addRightTile(const Tile& tile) {
     if (isEmpty()) {
         m_layout.push_back(tile);
@@ -55,12 +59,14 @@ bool Layout::addRightTile(const Tile& tile) {
     return false;
 }
 
+
 /*
  * Psuedocode:
  * If side is 'L', check if tile can be placed on left edge
  * If side is 'R', check if tile can be placed on right edge
  * Else return false
  */
+
 bool Layout::isLegalMove(const Tile& tile, char side) const {
     if (isEmpty()) {
         return true; // Any tile can be played on an empty layout
@@ -77,10 +83,12 @@ bool Layout::isLegalMove(const Tile& tile, char side) const {
     return false;
 }
 
+
 /*
  * Psuedocode:
  * Check if each tile in hand can be legally placed on either side of layout.
  */
+
 bool Layout::findValidMoves(const Hand& hand) const {
     if (isEmpty()) {
         return true;
@@ -98,10 +106,12 @@ bool Layout::findValidMoves(const Hand& hand) const {
     return foundMove;
 }
 
+
 /*
  * Psuedocode:
  * For each tile in m_layout, display its left and right pips.
  */
+
 void Layout::displayLayout() const {
     for (const Tile& tile : m_layout) {
         std::cout << tile.getLeftPips() << "-" << tile.getRightPips() << " ";

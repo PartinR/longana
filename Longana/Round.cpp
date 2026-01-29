@@ -3,6 +3,13 @@
 #include "Hand.h"
 #include "Tile.h"
 
+
+/*
+ * Psuedocode:
+ * Round Constructor:
+ * Create all the objects needed for a round.
+ */
+
 Round::Round(int roundNumber, int tournamentTargetScore, int humanScore, int computerScore)
     : m_roundNumber(roundNumber),
     m_tournamentScore(tournamentTargetScore),
@@ -75,6 +82,14 @@ Round::Round(int roundNumber, int tournamentTargetScore, int humanScore, int com
     }
 }
 
+
+/*
+ * Psuedocode:
+ * Give the basic layout of the game state.
+ * Tournament score, round number, hands, layout, boneyard size,
+ * previous player passed, next player.
+ */
+
 void Round::displayGameState() {
     std::cout << "\n--------------------------------------------------\n";
     std::cout << "Tournament Score: " << m_tournamentScore << "\n";
@@ -109,6 +124,14 @@ void Round::displayGameState() {
     std::cout << "--------------------------------------------------\n";
 }
 
+
+/*
+ * Psuedocode:
+ * Main game loop for a round.
+ * Alternate turns between Human and Computer
+ * until a win condition is met.
+ */
+
 void Round::playRound() {
     bool roundOver = false;
 
@@ -133,6 +156,15 @@ void Round::playRound() {
         roundOver = checkWinCondition();
     }
 }
+
+
+/*
+ * Psuedocode:
+ * Check for win conditions:
+ * 1. Human Wins (Human hand empty)
+ * 2. Computer Wins (Computer hand empty)
+ * 3. Blocked Game (Stock empty, both players passed)
+ */
 
 bool Round::checkWinCondition() {
     // 1. HUMAN WINS (Human went out)

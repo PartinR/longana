@@ -4,11 +4,25 @@
 #include "Stock.h"
 #include "Tile.h"
 
+
+/*
+ * Psuedocode:
+ * Returns whether or not the tile can be played on the specified side.
+ */
+
 bool Computer::canPlayOnSide(const Tile& t, char side, bool opponentPassed) const {
     if (t.getLeftPips() == t.getRightPips()) return true;
     if (opponentPassed) return true;
     return (side == 'R'); // Default: Right only
 }
+
+
+/*
+ * Psuedocode:
+ * Computer's turn logic:
+ * 1. Search for moves in hand, prefer right side
+ * 2. If no moves, draw from stock
+ */
 
 bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
     std::cout << "Computer is thinking...\n";

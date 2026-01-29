@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Tile.h"
 
+
 /*
  * Psuedocode:
  * Return whether the player's hand is empty.
@@ -19,6 +20,7 @@ bool Player::isHandEmpty() const {
 int Player::getHandSize() const {
     return m_hand.getSize();
 }
+
 
 /*
  * Psuedocode:

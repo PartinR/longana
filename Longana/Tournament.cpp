@@ -3,6 +3,14 @@
 #include "Tournament.h"
 #include "Round.h"
 
+
+/*
+ * Psuedocode:
+ * Enter the score required to win, pass that vlaue to
+ * Round and run rounds until that score is met by a
+ * user of the game.
+ */
+
 void Tournament::playTournament() {
     std::cout << "=======================================\n";
     std::cout << "         LONGANA TOURNAMENT            \n";
@@ -44,6 +52,13 @@ void Tournament::playTournament() {
 
     announceWinner();
 }
+
+
+/*
+ * Psuedocode:
+ * Announce the winner in the following scenarios:
+ * Tie-breaker, computer wins, human wins, draw.
+ */
 
 void Tournament::announceWinner() const {
     std::cout << "\n**************************************************\n";

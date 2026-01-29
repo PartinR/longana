@@ -6,11 +6,27 @@
 #include "Stock.h"
 #include "Tile.h"
 
+
+/*
+ * Psuedocode:
+ * Returns whether or not the tile can be played on the specified side.
+ */
+
 bool Human::canPlayOnSide(const Tile& t, char side, bool opponentPassed) const {
     if (t.getLeftPips() == t.getRightPips()) return true; // Double
     if (opponentPassed) return true;                      // Opponent passed
     return (side == 'L');                                 // Default: Left only
 }
+
+
+/*
+ * Psuedocode:
+ * 1. Check for valid moves in hand
+ * 2. If none, draw from stock
+ *    a. If drawn tile fits, ask where to play
+ *    b. If not, pass
+ * 3. If moves available, prompt user for input until valid move made
+ */
 
 bool Human::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
     // 1. Check for valid moves
