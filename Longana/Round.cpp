@@ -3,9 +3,8 @@
 #include "Hand.h"
 #include "Tile.h"
 
-Round::Round(int roundNumber, int tournamentScore)
+Round::Round(int roundNumber, int humanScore, int computerScore)
     : m_roundNumber(roundNumber),
-    m_tournamentScore(tournamentScore),
     m_human(),
     m_computer(),
     m_stock(),
@@ -15,6 +14,10 @@ Round::Round(int roundNumber, int tournamentScore)
     m_isHumanTurn(false),
     m_engineValue(0)
 {
+
+    m_human.setScore(humanScore);
+    m_computer.setScore(computerScore);
+
     // 1. Determine Engine Pips (e.g., Round 1 = 6-6)
     // If round > 7, wrap around (e.g. Round 8 is 6-6 again) or use mod.
     // For now, assuming simple 7 - roundNum logic:
@@ -131,18 +134,64 @@ void Round::playRound() {
 }
 
 bool Round::checkWinCondition() {
-    // Logic remains mostly the same, but use m_human.getHand()
+    // 1. HUMAN WINS (Human went out)
     if (m_human.isHandEmpty()) {
-        std::cout << "*** Human Wins Round! ***\n";
+        // Calculate points (Sum of pips in Computer's hand)
+        int points = m_computer.getHand().getHandScore();
+
+        // Update Human's total score immediately
+        m_human.setScore(m_human.getScore() + points);
+
+        std::cout << "*** Human Wins Round! + " << points << " points ***\n";
         return true;
     }
+
+    // 2. COMPUTER WINS (Computer went out)
     if (m_computer.isHandEmpty()) {
-        std::cout << "*** Computer Wins Round! ***\n";
+        // Calculate points (Sum of pips in Human's hand)
+        int points = m_human.getHand().getHandScore();
+
+        // Update Computer's total score immediately
+        m_computer.setScore(m_computer.getScore() + points);
+
+        std::cout << "*** Computer Wins Round! + " << points << " points ***\n";
         return true;
     }
+
+    // 3. BLOCKED GAME (Stock empty, both players passed consecutively)
     if (m_stock.isEmpty() && m_humanPassed && m_computerPassed) {
-        std::cout << "*** Blocked Game! ***\n";
-        return true;
+        std::cout << "\n*** Game Blocked! Counting pips... ***\n";
+
+        // Get pip totals for comparison
+        int humanTotal = m_human.getHand().getHandScore();
+        int computerTotal = m_computer.getHand().getHandScore();
+
+        std::cout << "Human Pips: " << humanTotal << " | Computer Pips: " << computerTotal << "\n";
+
+        if (humanTotal < computerTotal) {
+            // Human has fewer dots, so Human wins. 
+            // In Longana, winner usually gets the loser's pip count (or sometimes their own + loser's).
+            // Standard rule: Winner gets the loser's total.
+            int points = computerTotal;
+
+            m_human.setScore(m_human.getScore() + points);
+            std::cout << "*** Human Wins the Block! + " << points << " points ***\n";
+        }
+        else if (computerTotal < humanTotal) {
+            // Computer has fewer dots, so Computer wins.
+            int points = humanTotal;
+
+            m_computer.setScore(m_computer.getScore() + points);
+            std::cout << "*** Computer Wins the Block! + " << points << " points ***\n";
+        }
+        else {
+            // Tie (Rare)
+            std::cout << "*** It's a Tie! 0 points awarded. ***\n";
+        }
+
+        return true; // Round is over
     }
+
+    // Round is not over yet
     return false;
 }

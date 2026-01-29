@@ -3,34 +3,61 @@
 
 int main() {
     std::cout << "=======================================\n";
-    std::cout << "      LONGANA - DEBUG TEST DRIVER      \n";
+    std::cout << "         LONGANA TOURNAMENT            \n";
     std::cout << "=======================================\n";
 
+    // 1. Persistent Variables (The "Database")
     int roundNum = 1;
-    int tournamentScore = 0; // <--- 1. NEW VARIABLE
-    char keepPlaying = 'y';
+    int humanTotalScore = 0;
+    int computerTotalScore = 0;
+    const int TARGET_SCORE = 200; // Game ends when someone hits this
 
-    while (keepPlaying == 'y' || keepPlaying == 'Y') {
-        std::cout << "\n";
+    bool tournamentOver = false;
 
-        // 2. FIXED: Pass BOTH arguments here
-        Round currentRound(roundNum, tournamentScore);
+    while (!tournamentOver) {
+        std::cout << "\nStarting Round " << roundNum << "...\n";
 
-        // 3. Play
+        // 2. Create the Round (Pass in the CURRENT scores)
+        Round currentRound(roundNum, humanTotalScore, computerTotalScore);
+
+        // 3. Play the Round (The Round object manages turns until someone wins)
         currentRound.playRound();
 
-        // TODO: Later, you will need to get the points from 'currentRound' 
-        // and add them to 'tournamentScore' here.
+        // 4. Retrieve Updated Scores (Save them back to our local variables)
+        humanTotalScore = currentRound.getHumanScore();
+        computerTotalScore = currentRound.getComputerScore();
 
-        std::cout << "\nRound finished. Play next round? (y/n): ";
-        std::cin >> keepPlaying;
+        // 5. Display Tournament Standings
+        std::cout << "\n****************************************\n";
+        std::cout << " TOURNAMENT STANDINGS (After Round " << roundNum << ")\n";
+        std::cout << " Human: " << humanTotalScore << "\n";
+        std::cout << " Computer: " << computerTotalScore << "\n";
+        std::cout << "****************************************\n";
 
-        if (keepPlaying == 'y' || keepPlaying == 'Y') {
-            roundNum++;
-            if (roundNum > 8) roundNum = 1;
+        // 6. Check for Tournament Winner
+        if (humanTotalScore >= TARGET_SCORE) {
+            std::cout << "\n>>> CONGRATULATIONS! Human wins the Tournament! <<<\n";
+            tournamentOver = true;
+        }
+        else if (computerTotalScore >= TARGET_SCORE) {
+            std::cout << "\n>>> GAME OVER. Computer wins the Tournament! <<<\n";
+            tournamentOver = true;
+        }
+        else {
+            // Ask to continue
+            char keepPlaying;
+            std::cout << "\nPlay next round? (y/n): ";
+            std::cin >> keepPlaying;
+
+            if (keepPlaying == 'y' || keepPlaying == 'Y') {
+                roundNum++;
+            }
+            else {
+                std::cout << "Tournament paused. Exiting.\n";
+                break;
+            }
         }
     }
 
-    std::cout << "Exiting game.\n";
     return 0;
 }

@@ -13,7 +13,7 @@ public:
     /// <summary>
     /// Default constructor for the Round class that initializes a Round object.
     /// </summary>
-    Round(int roundNumber, int tournamentScore);
+    Round(int roundNumber, int humanScore, int computerScore);
 
     /* --- Destructor --- */
 
@@ -21,6 +21,20 @@ public:
     /// Destructor for the Round class. Performs cleanup when a Round object is destroyed.
     /// </summary>
     ~Round() {}
+
+    /* --- Selectors --- */
+
+    /// <summary>
+    /// Get the current round points for human.
+    /// </summary>
+    /// <returns>Returns the round points</returns>
+    inline int getHumanScore() const { return m_human.getScore(); }
+
+    /// <summary>
+    /// Get the current round points for human.
+    /// </summary>
+    /// <returns>Returns the round points</returns>
+    inline int getComputerScore() const { return m_computer.getScore(); }
 
     /* --- Utility Functions --- */
 
