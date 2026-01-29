@@ -36,7 +36,7 @@ void LayoutView::displayHand(const Hand& hand) const {
     std::cout << "Player's Hand: ";
     for (int i = 0; i < hand.getSize(); ++i) {
         Tile tile = hand.getTileAtIndex(i);
-        std::cout << (i + 1) << ": [" << tile.getLeftPips() << "|" << tile.getRightPips() << "] ";
+        std::cout << (i + 1) << ": " << tile.getLeftPips() << "-" << tile.getRightPips() << " ";
     }
     std::cout << std::endl;
 }

@@ -48,7 +48,7 @@ bool Hand::playTile(int index, Tile& outTile) {
  */
 void Hand::displayHand() const {
     for (const Tile& tile : m_tiles) {
-        std::cout << "[" << tile.getLeftPips() << "|" << tile.getRightPips() << "] ";
+        std::cout << tile.getLeftPips() << "-" << tile.getRightPips() << " ";
     }
     std::cout << std::endl;
 }

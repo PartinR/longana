@@ -33,7 +33,7 @@ bool Human::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
         Tile drawn;
         stock.drawTile(drawn);
         m_hand.addTile(drawn);
-        std::cout << " >> You drew: [" << drawn.getLeftPips() << "-" << drawn.getRightPips() << "]\n";
+        std::cout << " >> You drew: " << drawn.getLeftPips() << "-" << drawn.getRightPips() << " \n";
 
         // Check if drawn tile plays
         bool fitL = canPlayOnSide(drawn, 'L', opponentPassed) && layout.isLegalMove(drawn, 'L');

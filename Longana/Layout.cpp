@@ -104,6 +104,6 @@ bool Layout::findValidMoves(const Hand& hand) const {
  */
 void Layout::displayLayout() const {
     for (const Tile& tile : m_layout) {
-        std::cout << "[" << tile.getLeftPips() << "|" << tile.getRightPips() << "] ";
+        std::cout << tile.getLeftPips() << "-" << tile.getRightPips() << " ";
     }
 }

@@ -46,20 +46,20 @@ Round::Round(int roundNumber, int tournamentTargetScore, int humanScore, int com
     if (m_human.removeSpecificTile(engine)) {
         m_layout.setEngine(engine);
         m_isHumanTurn = false; // Human played, so it's Computer's turn next
-        std::cout << " >> Human holds the Engine [" << enginePips << "|" << enginePips << "] and plays first.\n";
+        std::cout << " >> Human holds the Engine " << enginePips << "-" << enginePips << " and plays first.\n";
         engineFound = true;
     }
     // Check if Computer has the engine
     else if (m_computer.removeSpecificTile(engine)) {
         m_layout.setEngine(engine);
         m_isHumanTurn = true; // Computer played, so it's Human's turn next
-        std::cout << " >> Computer holds the Engine [" << enginePips << "|" << enginePips << "] and plays first.\n";
+        std::cout << " >> Computer holds the Engine " << enginePips << "-" << enginePips << " and plays first.\n";
         engineFound = true;
     }
 
     // EDGE CASE: Neither player has the engine (it is in the boneyard)
     if (!engineFound) {
-        std::cout << " >> Neither player holds the Engine [" << enginePips << "|" << enginePips << "].\n";
+        std::cout << " >> Neither player holds the Engine " << enginePips << "-" << enginePips << ".\n";
 
         // In standard rules, the player with the NEXT highest double starts.
         // For this assignment's simplicity, we can force-draw it or just place it from the void.

@@ -35,11 +35,11 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
         m_hand.playTile(bestIndex, played);
         if (bestSide == 'R') {
             layout.addRightTile(played);
-            std::cout << "Computer placed [" << played.getLeftPips() << "-" << played.getRightPips() << "] on the RIGHT.\n";
+            std::cout << "Computer placed " << played.getLeftPips() << "-" << played.getRightPips() << " on the RIGHT.\n";
         }
         else {
             layout.addLeftTile(played);
-            std::cout << "Computer placed [" << played.getLeftPips() << "-" << played.getRightPips() << "] on the LEFT.\n";
+            std::cout << "Computer placed " << played.getLeftPips() << "-" << played.getRightPips() << " on the LEFT.\n";
         }
         return true;
     }
