@@ -4,6 +4,8 @@
 #include "Stock.h"
 #include "Layout.h"
 #include "Hand.h"
+#include "LayoutView.h"
+#include "Tile.h"
 
 class Round {
 public:
@@ -33,13 +35,20 @@ private:
     Layout m_layout;
     Hand m_humanHand;
     Hand m_computerHand;
+    LayoutView m_view;
 
     int m_engineValue;
     bool m_isHumanTurn;
 
+    // Helper Function
+    static bool canPlayOnSide(const Tile& t, char side, bool isHumanTurn, bool opponentPassed);
+
     void performHumanTurn();
     void performComputerTurn();
     bool checkWinCondition();
+
+    bool m_humanPassed;
+    bool m_computerPassed;
 };
 
 #endif 

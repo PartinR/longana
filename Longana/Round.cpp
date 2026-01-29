@@ -1,3 +1,5 @@
+#include <iostream>
+#include <vector>
 #include "Round.h"
 #include "Tile.h"
 
@@ -11,6 +13,8 @@
 Round::Round(int roundNumber)
     : m_engineValue(7 - roundNumber), // Round 1: 6, Round 2: 5, etc.
     m_isHumanTurn(true),
+    m_humanPassed(false),
+    m_computerPassed(false),
     m_stock(), m_layout(), m_humanHand(), m_computerHand()
 {
     m_stock.shuffle();
@@ -104,16 +108,45 @@ void Round::playRound() {
     }
 }
 
+/*
+ * Psuedocode:
+ * Helper function to decide when play can be made on opposing side.
+ */
+bool Round::canPlayOnSide(const Tile& t, char side, bool isHumanTurn, bool opponentPassed) {
+    bool isDouble = (t.getLeftPips() == t.getRightPips());
+
+    // Rule: Doubles can go ANYWHERE.
+    if (isDouble) return true;
+
+    // Rule: If opponent passed, you can play ANYWHERE.
+    if (opponentPassed) return true;
+
+    // Rule: Otherwise, stick to your side.
+    if (isHumanTurn) {
+        return (side == 'L'); // Human owns Left
+    }
+    else {
+        return (side == 'R'); // Computer owns Right
+    }
+}
+
 /* 
  * Psuedocode:
  * Handle human player's turn.
  */
 void Round::performHumanTurn() {
-    bool turnComplete = false;
+    m_view.displayHeader(7 - m_engineValue, m_engineValue, m_stock);
+    m_view.displayBoard(m_layout);
+    if (m_computerPassed) { m_view.printMsg("Computer passed, you can play both sides."); }
+    
+    // Create vector of playable tiles for later indexing
+    std::vector<int> playableTiles;
+    for (int i = 0; i < m_humanHand.getSize(); i++) {
+        Tile t = m_humanHand.getTileAtIndex(i);
+        bool fitL = canPlayOnSide(t, 'L', true, m_computerPassed) && m_layout.isLegalMove(t, 'L');
+        bool fitR = canPlayOnSide(t, 'R', true, m_computerPassed) && m_layout.isLegalMove(t, 'R');
 
-    while (!turnComplete) {
-        // Implement human turn logic here (e.g., prompt for input, validate move, update layout)
-        // Need layoutView
+        if (fitL || fitR) { playableTiles.push_back(i); }
     }
 }
 
