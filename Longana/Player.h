@@ -47,12 +47,20 @@ public:
     /// <param name="score">That integer value to set the new score.</param>
     inline void setScore(int score) { m_score = score; }
 
+    /* --- Mutators --- */
 
     /// <summary>
     /// Adds a tile to the player's hand.
     /// </summary>
     /// <param name="tile">The tile object to be added.</param>
     inline void addTileToHand(const Tile& tile) { m_hand.addTile(tile); }
+
+    /// <summary>
+    /// Searches the player's hand for a specific tile. 
+    /// If found, removes it from the hand and returns true.
+    /// Used for placing the engine at the start of a round.
+    /// </summary>
+    bool removeSpecificTile(const Tile& target);
 
     /* --- Utility Functions --- */
 
