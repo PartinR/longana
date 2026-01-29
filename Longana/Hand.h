@@ -30,7 +30,7 @@ public:
     /// Inline const member function that returns the number of tiles stored in m_tiles.
     /// </summary>
     /// <returns>The number of tiles as an int.</returns>
-    inline int getSize() const { return m_tiles.size(); }
+    inline int getSize() const { return static_cast<int>(m_tiles.size()); }
 
     /// <summary>
     /// Checks whether the object's tile collection is empty.
