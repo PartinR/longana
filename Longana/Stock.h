@@ -38,7 +38,7 @@ public:
     /// Returns the number of tiles stored in the object.
     /// </summary>
     /// <returns>The number of elements in m_tiles, returned as an int. The method is const and does not modify the object.</returns>
-    inline int getSize() const { return m_tiles.size(); }
+    inline int getSize() const { return static_cast<int>(m_tiles.size()); }
 
     /// <summary>
     /// Checks whether the object's tile container is empty.
@@ -61,6 +61,12 @@ public:
     /// Performs a shuffling operation.
     /// </summary>
     void shuffle();
+
+    /// <summary>
+    /// Prints all tiles currently in the boneyard to the console.
+    /// Used for the game status display.
+    /// </summary>
+    void printStock() const;
 
 private:
     std::vector<Tile> m_tiles;
