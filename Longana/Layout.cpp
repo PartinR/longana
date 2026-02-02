@@ -6,6 +6,7 @@
  ************************************************************/
 
 #include <iostream>
+#include <string>
 #include "Layout.h"
 #include "Hand.h"
 #include "Tile.h"
@@ -172,4 +173,15 @@ void Layout::displayLayout() const {
     for (const Tile& tile : m_layout) {
         std::cout << "[" << tile.getLeftPips() << "|" << tile.getRightPips() << "] ";
     }
+}
+
+std::string Layout::toString() const {
+    std::string layoutStr = "L ";
+
+    for (const Tile& tile : m_layout) {
+        layoutStr += std::to_string(tile.getLeftPips()) + "-" + std::to_string(tile.getRightPips()) + " ";
+    }
+
+    layoutStr += "R";
+    return layoutStr;
 }

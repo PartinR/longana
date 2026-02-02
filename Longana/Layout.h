@@ -9,6 +9,7 @@
  ************************************************************/
 
 #include <deque>
+#include <string>
 #include "Tile.h"
 #include "Hand.h"
 
@@ -168,6 +169,8 @@ public:
     Reference: None
     ********************************************************************* */
     void displayLayout() const;
+
+    std::string toString() const;
 
 private:
     // A double-ended queue to store the line of tiles
