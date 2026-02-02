@@ -9,6 +9,7 @@
  ************************************************************/
 
 #include <vector>
+#include <string>
 #include "Tile.h"
 
  /* *********************************************************************
@@ -138,6 +139,8 @@ public:
     Reference: None
     ********************************************************************* */
     void printStock() const;
+
+    std::string toString() const;
 
 private:
     // A vector holding the pool of available tiles

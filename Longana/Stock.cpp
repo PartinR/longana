@@ -8,6 +8,7 @@
 #include <random>
 #include <iostream>
 #include <algorithm>
+#include <string>
 #include "Stock.h"
 #include "Tile.h"
 
@@ -116,4 +117,14 @@ bool Stock::removeSpecificTile(const Tile& target) {
         }
     }
     return false;
+}
+
+std::string Stock::toString() const {
+    std::string boneyard;
+
+    for (const auto& tile : m_tiles) {
+        boneyard += std::to_string(tile.getLeftPips()) + "-" + std::to_string(tile.getRightPips()) + " ";
+    }
+
+    return boneyard;
 }
