@@ -8,6 +8,11 @@
  * Date:  02/12/2026                                        *
  ************************************************************/
 
+#include "Round.h"
+#include "Hand.h"
+#include "Layout.h"
+#include "Stock.h"
+
  /* *********************************************************************
  Class Name: Tournament
  Purpose: Acts as the high-level controller for the Longana game. It
@@ -33,7 +38,7 @@ public:
     Reference: None
     ********************************************************************* */
     Tournament()
-        : m_totalHumanScore(0), m_totalComputerScore(0), m_targetScore(0), m_roundNumber(1)
+        : m_totalHumanScore(0), m_totalComputerScore(0), m_targetScore(0), m_roundNumber(1), m_currentRound(1, 0, 0, 0)
     {
     }
 
@@ -49,6 +54,29 @@ public:
     ********************************************************************* */
     ~Tournament() {}
 
+    /* --- Selectors --- */
+
+    inline int getTargetScore() const { return m_targetScore; }
+
+    inline int getRoundNumber() const { return m_roundNumber; }
+
+    inline int getHumanScore() const { return m_totalHumanScore; }
+
+    inline int getComputerScore() const { return m_totalComputerScore; }
+
+    const Hand& getHumanHand() const { return m_currentRound.getHumanHand(); }
+
+    const Hand& getComputerHand() const { return m_currentRound.getComputerHand(); }
+
+    const Layout& getLayout() const { return m_currentRound.getLayout(); } 
+
+    const Stock& getStock() const { return m_currentRound.getStock(); }
+
+    inline bool isHumanTurn() const { return m_currentRound.isHumanTurn(); }
+
+    inline bool isPreviousPassed() const { 
+        return m_currentRound.isHumanTurn() ? m_currentRound.getComputerPassed() : m_currentRound.getHumanPassed(); 
+    }
 
     /* --- Utility Functions --- */
 
@@ -77,6 +105,8 @@ private:
     int m_totalComputerScore;
     int m_targetScore;
     int m_roundNumber;
+
+    Round m_currentRound;
 
     /* *********************************************************************
     Function Name: announceWinner
