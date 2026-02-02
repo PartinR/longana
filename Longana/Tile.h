@@ -8,6 +8,8 @@
  * Date:  02/12/2026                                        *
  ************************************************************/
 
+#include <string>
+
  /* *********************************************************************
  Class Name: Tile
  Purpose: Models a single domino tile used in the Longana game. Each tile
@@ -160,6 +162,8 @@ public:
     Reference: None
     ********************************************************************* */
     void flipTile();
+
+    std::string toString() const;
 
 private:
     /* --- Constants --- */

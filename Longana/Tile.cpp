@@ -5,6 +5,7 @@
  * Date:  02/12/2026                                        *
  ************************************************************/
 
+#include <string>
 #include "Tile.h"
 
  /* *********************************************************************
@@ -119,4 +120,8 @@ void Tile::flipTile() {
     int temp = m_left_pips;
     m_left_pips = m_right_pips;
     m_right_pips = temp;
+}
+
+std::string Tile::toString() const {
+    return std::to_string(m_left_pips) + "-" + std::to_string(m_right_pips);
 }
