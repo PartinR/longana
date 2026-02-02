@@ -6,7 +6,6 @@
  ************************************************************/
 
 #include <iostream>
-#include <string>
 #include "Round.h"
 #include "Hand.h"
 #include "Tile.h"

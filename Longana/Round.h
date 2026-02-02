@@ -12,6 +12,7 @@
 #include "Computer.h"
 #include "Stock.h"
 #include "Layout.h"
+#include "Hand.h"
 
  /* *********************************************************************
  Class Name: Round
@@ -72,6 +73,8 @@ public:
     ********************************************************************* */
     inline int getHumanScore() const { return m_human.getScore(); }
 
+    inline const Hand& getHumanHand() const { return m_human.getHand(); }
+
     /* *********************************************************************
     Function Name: getComputerScore
     Purpose: Retrieves the Computer's score at the end of the round.
@@ -81,6 +84,18 @@ public:
     Reference: None
     ********************************************************************* */
     inline int getComputerScore() const { return m_computer.getScore(); }
+
+    inline const Hand& getComputerHand() const { return m_computer.getHand(); }
+
+    inline const Layout& getLayout() const { return m_layout; }
+
+    inline const Stock& getStock() const { return m_stock; }
+
+    inline bool isHumanTurn() const { return m_isHumanTurn; }
+
+    inline bool getHumanPassed() const { return m_humanPassed; }
+
+    inline bool getComputerPassed() const { return m_computerPassed; }
 
     /* --- Utility Functions --- */
 
