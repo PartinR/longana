@@ -9,6 +9,7 @@
  ************************************************************/
 
 #include <vector>
+#include <string>
 #include "Tile.h"
 
  /* *********************************************************************
@@ -136,6 +137,8 @@ public:
     Reference: None
     ********************************************************************* */
     void displayHand() const;
+
+    std::string toString() const;
 
 private:
     // A dynamic array (vector) storing the collection of Tile objects

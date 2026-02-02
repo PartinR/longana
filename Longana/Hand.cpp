@@ -6,6 +6,7 @@
  ************************************************************/
 
 #include <iostream>
+#include <string>
 #include "Hand.h"
 #include "Tile.h"
 
@@ -102,4 +103,15 @@ void Hand::displayHand() const {
 
     // End the line after all tiles are displayed
     std::cout << std::endl;
+}
+
+std::string Hand::toString() const {
+    std::string handStr;
+
+    // Concatenate the string representation of each tile in the hand
+    for (const Tile& tile : m_tiles) {
+        handStr += tile.toString() + " ";
+    }
+
+    return handStr;
 }
