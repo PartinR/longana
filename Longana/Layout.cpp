@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "Layout.h"
 #include "Hand.h"
 #include "Tile.h"
@@ -184,4 +185,22 @@ std::string Layout::toString() const {
 
     layoutStr += "R";
     return layoutStr;
+}
+
+void Layout::loadFromString(const std::string& data) {
+    m_layout.clear();
+    
+    std::stringstream ss(data);
+    std::string token;
+
+    while (ss << token) {
+        size_t dashPos = token.find("-");
+
+        if (dashPos != std::string::npos) {
+            int left = std::stoi(token.substr(0, dashPos));
+            int right = std::stoi(token.substr(dashPos + 1));
+
+            m_layout.push_back(Tile(left, right));
+        }
+    }
 }

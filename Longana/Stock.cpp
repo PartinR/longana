@@ -7,6 +7,7 @@
 
 #include <random>
 #include <iostream>
+#include <sstream>
 #include <algorithm>
 #include <string>
 #include "Stock.h"
@@ -127,4 +128,22 @@ std::string Stock::toString() const {
     }
 
     return boneyard;
+}
+
+void Stock::loadFromString(const std::string& data) {
+    m_tiles.clear();
+
+    std::stringstream ss(data);
+    std::string token;
+
+    while (ss << token) {
+        size_t dashPos = token.find("-");
+
+        if (dashPos != std::string::npos) {
+            int left = std::stoi(token.substr(0, dashPos));
+            int right = std::stoi(token.substr(dashPos + 1));
+
+            m_tiles.push_back(Tile(left, right));
+        }
+    }
 }

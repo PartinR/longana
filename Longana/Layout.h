@@ -80,6 +80,8 @@ public:
     ********************************************************************* */
     inline bool isEmpty() const { return m_layout.empty(); }
 
+    void loadFromString(const std::string& data);
+
     /* --- Mutators --- */
 
     /* *********************************************************************
@@ -120,6 +122,8 @@ public:
     Reference: None
     ********************************************************************* */
     inline void setEngine(const Tile& t) { m_layout.push_back(t); }
+
+    inline void clearLayout() { m_layout.clear(); }
 
     /* --- Utility Functions --- */
 

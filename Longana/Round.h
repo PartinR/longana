@@ -75,6 +75,12 @@ public:
 
     inline const Hand& getHumanHand() const { return m_human.getHand(); }
 
+    inline Hand& getHumanHand() { return m_human.getHand(); }
+
+    inline const Hand& getComputerHand() const { return m_computer.getHand(); }
+
+    inline Hand& getComputerHand() { return m_computer.getHand(); }
+
     /* *********************************************************************
     Function Name: getComputerScore
     Purpose: Retrieves the Computer's score at the end of the round.
@@ -85,17 +91,31 @@ public:
     ********************************************************************* */
     inline int getComputerScore() const { return m_computer.getScore(); }
 
-    inline const Hand& getComputerHand() const { return m_computer.getHand(); }
-
     inline const Layout& getLayout() const { return m_layout; }
 
+    inline Layout& getLayout() { return m_layout; }
+
     inline const Stock& getStock() const { return m_stock; }
+
+    inline Stock& getStock() { return m_stock; }
 
     inline bool isHumanTurn() const { return m_isHumanTurn; }
 
     inline bool getHumanPassed() const { return m_humanPassed; }
 
     inline bool getComputerPassed() const { return m_computerPassed; }
+
+    /* --- Mutators --- */
+
+    inline void setHumanPassed(bool passed) { m_humanPassed = passed; }
+
+    inline void setComputerPassed(bool passed) { m_computerPassed = passed; }
+
+    void prepareRound(int roundNumber);
+
+    inline void setRoundNumber(int roundNumber) { m_roundNumber = roundNumber; }
+
+    inline void setHumanTurn(bool isHumanTurn) { m_isHumanTurn = isHumanTurn; }
 
     /* --- Utility Functions --- */
 

@@ -78,6 +78,22 @@ public:
         return m_currentRound.isHumanTurn() ? m_currentRound.getComputerPassed() : m_currentRound.getHumanPassed(); 
     }
 
+    inline Round& getCurrentRound() { return m_currentRound; }
+
+    /* --- Mutators --- */
+
+    inline void setTargetScore(int targetScore) { m_targetScore = targetScore; }
+
+    inline void setRoundNumber(int roundNumber) { m_roundNumber = roundNumber; }
+
+    inline void setHumanScore(int score) { m_totalHumanScore = score; }
+
+    inline void setComputerScore(int score) { m_totalComputerScore = score; }
+
+    inline void setHumanPassed(bool passed) { m_currentRound.setHumanPassed(passed); }
+
+    inline const void setComputerPassed(bool passed) { m_currentRound.setComputerPassed(passed); }
+
     /* --- Utility Functions --- */
 
     /* *********************************************************************

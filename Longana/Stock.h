@@ -78,6 +78,8 @@ public:
     ********************************************************************* */
     inline bool isEmpty() const { return m_tiles.empty(); }
 
+    void loadFromString(const std::string& data);
+
     /* --- Mutators --- */
 
     /* *********************************************************************

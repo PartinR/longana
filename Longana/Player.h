@@ -101,6 +101,8 @@ public:
     ********************************************************************* */
     inline void addTileToHand(const Tile& tile) { m_hand.addTile(tile); }
 
+    inline Hand& getHand() { return m_hand; }
+
     /* *********************************************************************
     Function Name: removeSpecificTile
     Purpose: Searches for and removes a specific tile from the hand. This is

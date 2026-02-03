@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Round.h"
 #include "Hand.h"
+#include "Stock.h"
 #include "Tile.h"
 
  /* *********************************************************************
@@ -246,4 +247,17 @@ bool Round::checkWinCondition() {
     }
 
     return false;
+}
+
+void Round::prepareRound(int roundNumber) {
+    m_roundNumber = roundNumber;
+
+    m_human.getHand().clearHand();
+    m_computer.getHand().clearHand();
+    m_layout.clearLayout();
+    m_stock = Stock();
+
+    m_humanPassed = false;
+    m_computerPassed = false;
+    m_isHumanTurn = true;
 }
