@@ -123,6 +123,10 @@ public:
     ********************************************************************* */
     bool playTile(int index, Tile& outTile);
 
+    void clearHand() { m_tiles.clear(); }
+
+    void loadFromString(const std::string& data);
+
     /* --- Utility Functions --- */
 
     /* *********************************************************************
