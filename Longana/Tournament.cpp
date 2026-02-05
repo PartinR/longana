@@ -63,7 +63,7 @@ void Tournament::playTournament() {
         Round currentRound(m_roundNumber, m_targetScore, m_totalHumanScore, m_totalComputerScore);
 
         // Execute the round's turn-based logic
-        currentRound.playRound();
+        currentRound.playRound(*this);
 
         // Update tournament totals based on the outcome of the round
         m_totalHumanScore = currentRound.getHumanScore();
