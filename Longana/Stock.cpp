@@ -88,7 +88,7 @@ void Stock::printStock() const {
 
     // Loop through the vector and display the tile data
     for (const auto& t : m_tiles) {
-        std::cout << "[" << t.getLeftPips() << "|" << t.getRightPips() << "] ";
+        std::cout << t.getLeftPips() << "-" << t.getRightPips() << " ";
     }
 
     std::cout << std::endl;
