@@ -5,24 +5,59 @@
  * Date:  02/12/2026                                        *
  ************************************************************/
 
+#include <iostream>
+#include <string>
 #include "Tournament.h"
+#include "Serializer.h"
 
- /* *********************************************************************
- Function Name: main
- Purpose: The entry point of the Longana application. It initializes the
-          tournament controller and starts the game execution.
- Parameters: None
- Return Value: Integer 0 upon successful completion.
- Algorithm:
-          1. Instantiate a Tournament object named 'game'.
-          2. Call the playTournament() method to begin the interactive
-             setup and round-robin play.
-          3. Return 0 to the operating system.
- Reference: None
- ********************************************************************* */
+/* *********************************************************************
+Function Name: main
+Purpose: The entry point of the Longana application. It initializes the
+        tournament controller, handles the initial menu for new or
+        saved games, and starts the game execution.
+Parameters: None
+Return Value: Integer 0 upon successful completion.
+Algorithm:
+        1. Instantiate a Tournament object named 'game'.
+        2. Display the main menu (Start New Game vs. Load Game).
+        3. Capture and validate user input.
+        4. If 'Load Game' is selected:
+            a. Prompt for the filename.
+            b. Call Serializer::loadGame to populate the 'game' object.
+            c. Report success or failure.
+        5. Call the playTournament() method to begin the round-robin play.
+        6. Return 0 to the operating system.
+Reference: None
+********************************************************************* */
 int main() {
-    // Create the high-level tournament manager object
+    // Create tournament object
     Tournament game;
+
+    // Display menu options to user
+    std::cout << "Welcome to Longana!\n";
+    std::cout << "1. Start New Game\n";
+    std::cout << "2. Load Game\n";
+    std::cout << ">> ";
+
+    int choice;
+    if (!(std::cin >> choice)) {
+        // Invalid input, exit
+        return 0;
+    }
+
+    // Handle load game scenario
+    // 
+    if (choice == 2) {
+        std::string filename;
+        std::cout << "Enter filename to load: ";
+        std::cin >> filename;
+        if (Serializer::loadGame(filename, game)) {
+            std::cout << "Game loaded successfully.\n";
+        }
+        else {
+            std::cerr << "Error: Could not load game. Starting new game instead.\n";
+        }
+    }
 
     // Execute the primary game loop through the tournament interface
     // This will handle user input for target score and round coordination
