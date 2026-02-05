@@ -13,24 +13,24 @@
 #include "Stock.h"
 #include "Tile.h"
 
- /* *********************************************************************
- Function Name: canPlayOnSide
- Purpose: Determines if the human player is legally allowed to place a
-          specific tile on a specific side of the layout.
- Parameters:
-          t, a Tile object passed by const reference. The tile to check.
-          side, a char passed by value. 'L' for Human side, 'R' for Computer side.
-          opponentPassed, a bool passed by value. Flag indicating if computer passed.
- Return Value: Boolean true if the move is permitted by rules, false otherwise.
- Algorithm:
-          1. If the tile is a double, it is legally playable on any side.
-          2. If the opponent (Computer) passed their turn, the Human can play on the 'R' side.
-          3. Otherwise, the Human is restricted to their own side ('L').
- Reference: None
- ********************************************************************* */
-bool Human::canPlayOnSide(const Tile& t, char side, bool opponentPassed) const {
+/* *********************************************************************
+Function Name: canPlayOnSide
+Purpose: Determines if the human player is legally allowed to place a
+        specific tile on a specific side of the layout.
+Parameters:
+        tile, a Tile object passed by const reference. The tile to check.
+        side, a char passed by value. 'L' for Human side, 'R' for Computer side.
+        opponentPassed, a bool passed by value. Flag indicating if computer passed.
+Return Value: Boolean true if the move is permitted by rules, false otherwise.
+Algorithm:
+        1. If the tile is a double, it is legally playable on any side.
+        2. If the opponent (Computer) passed their turn, the Human can play on the 'R' side.
+        3. Otherwise, the Human is restricted to their own side ('L').
+Reference: None
+********************************************************************* */
+bool Human::canPlayOnSide(const Tile& tile, char side, bool opponentPassed) const {
     // Doubles can be played on either side regardless of pass status
-    if (t.getLeftPips() == t.getRightPips()) return true;
+    if (tile.getLeftPips() == tile.getRightPips()) return true;
 
     // The Human can play on the Computer's side (R) only if the Computer passed
     if (opponentPassed) return true;
@@ -42,19 +42,19 @@ bool Human::canPlayOnSide(const Tile& t, char side, bool opponentPassed) const {
 /* *********************************************************************
 Function Name: playTurn
 Purpose: Manages the interactive turn for the human player, including
-         move validation, drawing from the boneyard, and user input.
+        move validation, drawing from the boneyard, and user input.
 Parameters:
-         layout, a Layout object passed by reference.
-         stock, a Stock object passed by reference.
-         opponentPassed, a bool passed by value.
+        layout, a Layout object passed by reference.
+        stock, a Stock object passed by reference.
+        opponentPassed, a bool passed by value.
 Return Value: Boolean true if a tile was successfully placed, false if passed.
 Algorithm:
-         1. Scan the hand for any legal moves on any valid side.
-         2. If no moves exist:
+        1. Scan the hand for any legal moves on any valid side.
+        2. If no moves exist:
             a. Prompt the user and draw from the boneyard.
             b. If drawn tile is playable, prompt for side and place it.
             c. If not playable, inform the user and return false (pass).
-         3. If moves exist, enter a loop:
+        3. If moves exist, enter a loop:
             a. Prompt user for a tile index.
             b. Validate index and check if the tile can play on 'L' or 'R'.
             c. If the tile fits both, prompt for side selection.
@@ -84,7 +84,7 @@ bool Human::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
         Tile drawn;
         stock.drawTile(drawn);
         m_hand.addTile(drawn);
-        std::cout << " >> You drew: [" << drawn.getLeftPips() << "|" << drawn.getRightPips() << "]\n";
+        std::cout << " >> You drew: " << drawn.getLeftPips() << "-" << drawn.getRightPips() << "\n";
 
         // Check if the newly drawn tile can be played immediately
         bool fitL = canPlayOnSide(drawn, 'L', opponentPassed) && layout.isLegalMove(drawn, 'L');
@@ -152,7 +152,8 @@ bool Human::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
             }
         }
         else if (fitR) {
-            side = 'R'; // Tile only fits the right side
+            // Tile only fits the right side
+            side = 'R';
         }
 
         // Execute the play: remove from hand and place on the board
