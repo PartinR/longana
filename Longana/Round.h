@@ -14,6 +14,8 @@
 #include "Layout.h"
 #include "Hand.h"
 
+class Tournament;
+
  /* *********************************************************************
  Class Name: Round
  Purpose: Manages the execution of a single round of Longana. It is
@@ -133,7 +135,9 @@ public:
              5. Toggle m_isHumanTurn.
     Reference: None
     ********************************************************************* */
-    void playRound();
+    void playRound(const Tournament& tournament);
+
+    void help();
 
 private:
     int m_roundNumber;

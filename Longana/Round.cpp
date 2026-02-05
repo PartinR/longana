@@ -6,9 +6,13 @@
  ************************************************************/
 
 #include <iostream>
+#include <string>
+#include <cstdlib>
 #include "Round.h"
 #include "Hand.h"
 #include "Stock.h"
+#include "Serializer.h"
+#include "Tournament.h"
 #include "Tile.h"
 
  /* *********************************************************************
@@ -162,7 +166,7 @@ Algorithm:
          6. Call checkWinCondition() to update roundOver status.
 Reference: None
 ********************************************************************* */
-void Round::playRound() {
+void Round::playRound(const Tournament& tournament) {
     bool roundOver = false;
 
     while (!roundOver) {
@@ -170,6 +174,40 @@ void Round::playRound() {
         displayGameState();
 
         if (m_isHumanTurn) {
+            // Execute Human turn logic
+            while (true) {
+                std::cout << "Enter command (play / help / save / quit): ";
+                std::string command;
+                std::cin >> command;
+
+                if (command == "help") {
+                    help();
+                    continue;
+                }
+                else if (command == "save") {
+                    std::cout << "Enter filename to save to: ";
+                    std::string filename;
+                    std::cin >> filename;
+
+                    if (Serializer::saveGame(filename, tournament)) {
+                        std::cout << "Game saved successfully to " << filename << "\n";
+                    }
+                    else {
+                        std::cout << "Game save was unsuccessful\n";
+                    }
+                }
+                else if (command == "quit") {
+                    std::cout << "Exiting game...";
+                    exit(0);
+                }
+                else if (command == "play") {
+                    break;
+                }
+                else {
+                    std::cout << "Invalid command. Try again.\n";
+                }
+            }
+
             // Execute Human turn logic
             bool moveMade = m_human.playTurn(m_layout, m_stock, m_computerPassed);
             m_humanPassed = !moveMade;
@@ -260,4 +298,34 @@ void Round::prepareRound(int roundNumber) {
     m_humanPassed = false;
     m_computerPassed = false;
     m_isHumanTurn = true;
+}
+
+void Round::help() {
+    const Hand& hand = m_human.getHand();
+    bool foundMove = false;
+
+    for (int i = 0; i < hand.getSize(); i++) {
+        Tile t = hand.getTileAtIndex(i);
+
+        if (m_layout.isLegalMove(t, 'L')) {
+            std::cout << t.getLeftPips() << "-" << t.getRightPips() << std::endl;
+            foundMove = true;
+            break;
+        }
+
+        if (m_computerPassed && m_layout.isLegalMove(t, 'R')) {
+            std::cout << t.getLeftPips() << "-" << t.getRightPips() << std::endl;
+            foundMove = true;
+            break;
+        }
+    }
+
+    if (!foundMove) {
+        if (!m_stock.isEmpty()) {
+            std::cout << "No moves found. You Should DRAW." << std::endl;
+        }
+        else {
+            std::cout << "No moves and boneyard is empty. You must PASS." << std::endl;
+        }
+    }
 }
