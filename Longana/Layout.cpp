@@ -6,10 +6,11 @@
  ************************************************************/
 
 #include <iostream>
-#include <string>
 #include <sstream>
-#include "Layout.h"
+#include <string>
+
 #include "Hand.h"
+#include "Layout.h"
 #include "Tile.h"
 
 /* *********************************************************************
@@ -204,7 +205,7 @@ Algorithm:
 Reference: None
 ********************************************************************* */
 void Layout::loadFromString(const std::string& data) {
-    // Empty the hand to prepare for new data from the save file
+    // Empty the layout to prepare for new data from the save file
     m_layout.clear();
     
     // Use stringstream to split the string into individual "6-6" tokens
@@ -220,7 +221,7 @@ void Layout::loadFromString(const std::string& data) {
             int left = std::stoi(token.substr(0, dashPos));
             int right = std::stoi(token.substr(dashPos + 1));
 
-            // Create the Tile and store it in the hand
+            // Create the Tile and store it to the layout
             m_layout.push_back(Tile(left, right));
         }
     }

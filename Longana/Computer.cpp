@@ -6,6 +6,7 @@
  ************************************************************/
 
 #include <iostream>
+
 #include "Computer.h"
 #include "Layout.h"
 #include "Stock.h"

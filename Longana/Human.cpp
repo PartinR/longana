@@ -5,9 +5,10 @@
  * Date:  02/12/2026                                        *
  ************************************************************/
 
+#include <cctype>
 #include <iostream>
 #include <vector>
-#include <cctype>
+
 #include "Human.h"
 #include "Layout.h"
 #include "Stock.h"

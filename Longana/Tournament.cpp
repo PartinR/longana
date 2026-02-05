@@ -7,32 +7,33 @@
 
 #include <iostream>
 #include <ios>
-#include "Tournament.h"
-#include "Round.h"
 
- /* *********************************************************************
- Function Name: playTournament
- Purpose: Acts as the main driver for the entire application. It handles
-          the initial setup, maintains the tournament-wide scores, and
-          manages the progression from one round to the next.
- Parameters: None
- Return Value: None (void)
- Algorithm:
-          1. Display the tournament welcome banner.
-          2. Prompt the user for a target winning score; validate that the
-             input is a positive integer.
-          3. Enter a loop that continues as long as both players' total
-             scores are below the target score.
-          4. Within the loop, instantiate a Round object, passing in
-             the current tournament state (scores and round number).
-          5. Call playRound() to execute the game logic for that round.
-          6. Retrieve the updated scores from the Round object and update
-             the tournament's persistent score variables.
-          7. If the tournament is not yet won, wait for user input and
-             increment the round counter.
-          8. Once a player reaches the target, call announceWinner().
- Reference: None
- ********************************************************************* */
+#include "Round.h"
+#include "Tournament.h"
+
+/* *********************************************************************
+Function Name: playTournament
+Purpose: Acts as the main driver for the entire application. It handles
+        the initial setup, maintains the tournament-wide scores, and
+        manages the progression from one round to the next.
+Parameters: None
+Return Value: None (void)
+Algorithm:
+        1. Display the tournament welcome banner.
+        2. Prompt the user for a target winning score; validate that the
+            input is a positive integer.
+        3. Enter a loop that continues as long as both players' total
+            scores are below the target score.
+        4. Within the loop, instantiate a Round object, passing in
+            the current tournament state (scores and round number).
+        5. Call playRound() to execute the game logic for that round.
+        6. Retrieve the updated scores from the Round object and update
+            the tournament's persistent score variables.
+        7. If the tournament is not yet won, wait for user input and
+            increment the round counter.
+        8. Once a player reaches the target, call announceWinner().
+Reference: None
+********************************************************************* */
 void Tournament::playTournament() {
     std::cout << "=======================================\n";
     std::cout << "          LONGANA TOURNAMENT           \n";
@@ -48,16 +49,16 @@ void Tournament::playTournament() {
             // Clear error flags and discard bad input from the buffer
             std::cout << "Invalid Input. Please enter a positive integer.\n";
             std::cin.clear();
-            std::cin.ignore();
+            std::cin.ignore(1000, '\n');
         }
     }
 
-    std::cout << "Target score set to: " << m_targetScore << std::endl;
+    std::cout << "Target score set to: " << m_targetScore << "\n" << std::endl;
 
     // Main tournament loop: continues until a player crosses the score threshold
     while (m_totalHumanScore < m_targetScore && m_totalComputerScore < m_targetScore) {
 
-        std::cout << "Starting Round. . .\n";
+        std::cout << "Starting Round. . ." << std::endl;
 
         // Pass the persistent tournament state into the Round coordinator
         Round currentRound(m_roundNumber, m_targetScore, m_totalHumanScore, m_totalComputerScore);
@@ -86,16 +87,16 @@ void Tournament::playTournament() {
 /* *********************************************************************
 Function Name: announceWinner
 Purpose: Compares the final tournament scores and outputs the final
-         standings and the winner's announcement.
+        standings and the winner's announcement.
 Parameters: None
 Return Value: None (void)
 Algorithm:
-         1. Print the final results header.
-         2. Display final scores for the Human and Computer against the target.
-         3. If both players exceeded the target in the same round, the
+        1. Print the final results header.
+        2. Display final scores for the Human and Computer against the target.
+        3. If both players exceeded the target in the same round, the
             player with the higher score is declared the winner.
-         4. If only one player exceeded the target, they are the winner.
-         5. In the event of an exact tie above the target, declare a draw.
+        4. If only one player exceeded the target, they are the winner.
+        5. In the event of an exact tie above the target, declare a draw.
 Reference: None
 ********************************************************************* */
 void Tournament::announceWinner() const {
@@ -125,5 +126,5 @@ void Tournament::announceWinner() const {
     else {
         std::cout << " >>> GAME OVER. COMPUTER WINS THE TOURNAMENT! <<<\n";
     }
-    std::cout << "**************************************************\n";
+    std::cout << "**************************************************\n" << std::endl;
 }

@@ -6,11 +6,11 @@
  ************************************************************/
 
 #include <iostream>
-#include <string>
+
+#include "Hand.h"
+#include "Layout.h"
 #include "LayoutView.h"
 #include "Stock.h"
-#include "Layout.h"
-#include "Hand.h"
 #include "Tile.h"
 
  /* *********************************************************************

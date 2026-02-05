@@ -8,6 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+
 #include "Hand.h"
 #include "Tile.h"
 
@@ -86,27 +87,6 @@ bool Hand::playTile(int index, Tile& outTile) {
 }
 
 /* *********************************************************************
-Function Name: displayHand
-Purpose: Prints the contents of the hand to the standard output.
-Parameters: None
-Return Value: None (void)
-Algorithm:
-        1. Iterate through each tile in the hand.
-        2. Print the left and right pips of each tile in a readable format.
-        3. Print a newline at the end of the list.
-Reference: None
-********************************************************************* */
-void Hand::displayHand() const {
-    // Display each tile in the hand separated by spaces
-    for (const Tile& tile : m_tiles) {
-        std::cout << tile.getLeftPips() << "-" << tile.getRightPips() << " ";
-    }
-
-    // End the line after all tiles are displayed
-    std::cout << std::endl;
-}
-
-/* *********************************************************************
 Function Name: toString
 Purpose: Converts the entire collection of tiles in the hand into a
         single string representation.
@@ -171,4 +151,25 @@ void Hand::loadFromString(const std::string& data) {
             m_tiles.push_back(Tile(left, right));
         }
     }
+}
+
+/* *********************************************************************
+Function Name: displayHand
+Purpose: Prints the contents of the hand to the standard output.
+Parameters: None
+Return Value: None (void)
+Algorithm:
+        1. Iterate through each tile in the hand.
+        2. Print the left and right pips of each tile in a readable format.
+        3. Print a newline at the end of the list.
+Reference: None
+********************************************************************* */
+void Hand::displayHand() const {
+    // Display each tile in the hand separated by spaces
+    for (const Tile& tile : m_tiles) {
+        std::cout << tile.getLeftPips() << "-" << tile.getRightPips() << " ";
+    }
+
+    // End the line after all tiles are displayed
+    std::cout << std::endl;
 }

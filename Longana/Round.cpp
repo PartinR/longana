@@ -5,15 +5,16 @@
  * Date:  02/12/2026                                        *
  ************************************************************/
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
-#include <cstdlib>
-#include "Round.h"
+
 #include "Hand.h"
-#include "Stock.h"
+#include "Round.h"
 #include "Serializer.h"
-#include "Tournament.h"
+#include "Stock.h"
 #include "Tile.h"
+#include "Tournament.h"
 
 /* *********************************************************************
 Function Name: Round

@@ -8,8 +8,9 @@
  * Date:  02/12/2026                                        *
  ************************************************************/
 
-#include <vector>
 #include <string>
+#include <vector>
+
 #include "Tile.h"
 
  /* *********************************************************************
@@ -42,7 +43,7 @@ public:
     Algorithm: Standard vector destructor handles memory cleanup automatically.
     Reference: None
     ********************************************************************* */
-    ~Hand() {}
+    virtual ~Hand() {}
 
     /* --- Selectors --- */
 
@@ -69,9 +70,9 @@ public:
     /* *********************************************************************
     Function Name: getTileAtIndex
     Purpose: Retrieves a copy of a tile at a specific position in the hand.
-             Used for inspecting tiles without removing them.
+            Used for inspecting tiles without removing them.
     Parameters:
-             index, an integer passed by value. The position of the tile to retrieve.
+            index, an integer passed by value. The position of the tile to retrieve.
     Return Value: A Tile object (by value).
     Algorithm: Return the element at m_tiles[index].
     Reference: None
@@ -80,15 +81,14 @@ public:
 
     /* *********************************************************************
     Function Name: getHandScore
-    Purpose: Calculates the total score value of the hand. In Longana, this is
-             typically the sum of all pips on the tiles remaining in the hand.
+    Purpose: Calculates the total pip value of all tiles currently in the hand.
     Parameters: None
-    Return Value: An integer representing the total pip sum of the hand.
+    Return Value: An integer representing the total pip sum.
     Algorithm:
-             1. Initialize total to 0.
-             2. Iterate through m_tiles.
-             3. For each tile, add its pip sum to total.
-             4. Return total.
+            1. Initialize totalScore to 0.
+            2. Iterate through each Tile object in the m_tiles vector.
+            3. Add the result of the tile's getSum() method to totalScore.
+            4. Return the final totalScore.
     Reference: None
     ********************************************************************* */
     int getHandScore() const;
@@ -97,52 +97,102 @@ public:
 
     /* *********************************************************************
     Function Name: addTile
-    Purpose: Adds a new tile to the player's hand (usually from drawing).
+    Purpose: Adds a new tile to the player's hand (e.g., from a draw).
     Parameters:
-             tile, a Tile object passed by const reference. The tile to add.
-    Return Value: true if successful, false otherwise.
-    Algorithm: Use std::vector::push_back to add the tile to m_tiles.
+            tile, a Tile object passed by const reference. The tile to be added.
+    Return Value: Boolean true indicating the operation was successful.
+    Algorithm:
+            1. Use push_back to append the provided tile to the m_tiles vector.
+            2. Return true.
     Reference: None
     ********************************************************************* */
     bool addTile(const Tile& tile);
 
     /* *********************************************************************
     Function Name: playTile
-    Purpose: Removes a specific tile from the hand to be played on the layout.
+    Purpose: Removes a tile at a specific index from the hand so it can be
+            placed on the layout.
     Parameters:
-             index, an integer passed by value. The index of the tile to remove.
-             outTile, a Tile object passed by reference. This variable is updated
-                      to hold the value of the tile being removed (so the caller knows what was played).
-    Return Value: true if the index was valid and tile removed, false otherwise.
+            index, an integer passed by value. The position of the tile to remove.
+            outTile, a Tile object passed by reference. Used to return the
+                data of the removed tile to the caller.
+    Return Value: Boolean true if the index was valid and tile removed; false otherwise.
     Algorithm:
-             1. Check if index is within valid bounds (0 to size-1).
-             2. If valid, assign m_tiles[index] to outTile.
-             3. Remove the tile from the vector using std::vector::erase.
-             4. Return true.
+            1. Validate if the provided index is within the vector bounds.
+            2. If out of bounds, return false.
+            3. If valid, copy the tile at the index into outTile.
+            4. Erase the tile from the vector using an iterator.
+            5. Return true.
     Reference: None
     ********************************************************************* */
     bool playTile(int index, Tile& outTile);
 
+    /* *********************************************************************
+    Function Name: clearHand
+    Purpose: To remove all tiles from the player's current hand, resetting
+            the hand to an empty state. This is primarily used when
+            re-initializing a hand during round transitions or loading.
+    Parameters: None
+    Return Value: None (void)
+    Algorithm:
+            1. Call the clear() method on the m_tiles vector.
+            2. The vector's size is reduced to zero, and the memory
+                management is handled by the standard library.
+    Reference: None
+    ********************************************************************* */
     void clearHand() { m_tiles.clear(); }
-
-    void loadFromString(const std::string& data);
 
     /* --- Utility Functions --- */
 
     /* *********************************************************************
+    Function Name: toString
+    Purpose: Converts the entire collection of tiles in the hand into a
+            single string representation.
+    Parameters: None
+    Return Value: A std::string containing all tiles, separated by spaces.
+    Algorithm:
+            1. Initialize an empty string named handStr.
+            2. Iterate through each Tile object in the m_tiles vector.
+            3. Call the toString() method of each tile (e.g., producing "6-6").
+            4. Append the tile's string and a trailing space to handStr.
+            5. Return the resulting concatenated string.
+    Reference: None
+    ********************************************************************* */
+    std::string toString() const;
+
+    /* *********************************************************************
+    Function Name: loadFromString
+    Purpose: Populates the hand by parsing a space-delimited string of tiles.
+            Used primarily when loading a saved game state.
+    Parameters:
+            data, a const std::string passed by reference. The raw string
+                containing tile data (e.g., "6-6 1-0 4-2").
+    Return Value: None (void)
+    Algorithm:
+            1. Clear any existing tiles from the m_tiles vector.
+            2. Wrap the input string in a std::stringstream for easy tokenization.
+            3. While there are tokens (individual tiles) in the stream:
+                a. Locate the position of the dash ('-') within the token.
+                b. If found, extract the substring before the dash as the 'left' value.
+                c. Extract the substring after the dash as the 'right' value.
+                d. Convert these substrings to integers using std::stoi.
+                e. Construct a new Tile object and push it into the m_tiles vector.
+    Reference: None
+    ********************************************************************* */
+    void loadFromString(const std::string& data);
+
+    /* *********************************************************************
     Function Name: displayHand
-    Purpose: Prints the visual representation of the hand to the console.
+    Purpose: Prints the contents of the hand to the standard output.
     Parameters: None
     Return Value: None (void)
     Algorithm:
-             1. Iterate through the m_tiles vector.
-             2. Print each tile in the format [Left|Right].
-             3. Print newlines or spaces as necessary for formatting.
+            1. Iterate through each tile in the hand.
+            2. Print the left and right pips of each tile in a readable format.
+            3. Print a newline at the end of the list.
     Reference: None
     ********************************************************************* */
     void displayHand() const;
-
-    std::string toString() const;
 
 private:
     // A dynamic array (vector) storing the collection of Tile objects
