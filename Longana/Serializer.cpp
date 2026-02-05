@@ -4,7 +4,6 @@
 #include <iostream>
 #include "Serializer.h"
 #include "Tournament.h"
-#include "Tile.h"
 
 bool Serializer::saveGame(const std::string& filename, const Tournament& tournament) {
     std::ofstream outFile(filename);
@@ -147,9 +146,4 @@ bool Serializer::loadGame(const std::string& filename, Tournament& tournament) {
 
     inFile.close();
     return true; // Placeholder return value
-}
-
-Tile Serializer::parseTile(const std::string& token) {
-    // Implementation for parsing a tile from a string token
-    return Tile(); // Placeholder return value
 }

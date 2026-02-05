@@ -2,7 +2,7 @@
 #define COMPUTER_H
 
 /************************************************************
- * Name:  Race Benjamin Partin                              *
+ * Name:  Race Partin                                       *
  * Project: Project 1 (Longana)                             *
  * Class:  CMPS 366 - OPL                                   *
  * Date:  02/12/2026                                        *

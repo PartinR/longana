@@ -3,7 +3,6 @@
 
 #include <string>
 #include "Tournament.h"
-#include "Tile.h"
 
 class Serializer {
 public:
@@ -20,9 +19,6 @@ public:
     static bool saveGame(const std::string& filename, const Tournament& tournament);
 
     static bool loadGame(const std::string& filename, Tournament& tournament);
-
-private:
-    static Tile parseTile(const std::string& token);
 
 };
 
