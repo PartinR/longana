@@ -13,32 +13,6 @@
 #include "Tile.h"
 
 /* *********************************************************************
-Function Name: canPlayOnSide
-Purpose: Determines if a specific tile is legally eligible to be placed
-        on a certain side of the layout based on Longana rules.
-Parameters:
-        tile, a Tile object passed by const reference. The tile to check.
-        side, a char passed by value. 'L' for Computer's side, 'R' for Human's side.
-        opponentPassed, a bool passed by value. Flag indicating if the human passed.
-Return Value: Boolean true if the tile is allowed on that side, false otherwise.
-Algorithm:
-        1. If the tile is a double (pips match), it is playable on any side.
-        2. If the opponent (Human) passed their last turn, any tile is playable on their side.
-        3. Otherwise, return true only if the side is 'R' (the Computer's own designated side).
-Reference: None
-********************************************************************* */
-bool Computer::canPlayOnSide(const Tile& tile, char side, bool opponentPassed) const {
-    // All doubles are playable on any open side in Longana
-    if (tile.getLeftPips() == tile.getRightPips()) return true;
-
-    // If the opponent passed, their side of the layout becomes open to the Computer
-    if (opponentPassed) return true;
-
-    // By default, a player can always play on their own side (represented here as 'R')
-    return (side == 'R');
-}
-
-/* *********************************************************************
 Function Name: playTurn
 Purpose: Executes the strategy for the Computer player using a "First-Fit"
         approach with side prioritization.
@@ -144,4 +118,30 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
     // If even the drawn tile cannot be played, the Computer passes
     std::cout << "Computer passes.\n";
     return false;
+}
+
+/* *********************************************************************
+Function Name: canPlayOnSide
+Purpose: Determines if a specific tile is legally eligible to be placed
+        on a certain side of the layout based on Longana rules.
+Parameters:
+        tile, a Tile object passed by const reference. The tile to check.
+        side, a char passed by value. 'L' for Computer's side, 'R' for Human's side.
+        opponentPassed, a bool passed by value. Flag indicating if the human passed.
+Return Value: Boolean true if the tile is allowed on that side, false otherwise.
+Algorithm:
+        1. If the tile is a double (pips match), it is playable on any side.
+        2. If the opponent (Human) passed their last turn, any tile is playable on their side.
+        3. Otherwise, return true only if the side is 'R' (the Computer's own designated side).
+Reference: None
+********************************************************************* */
+bool Computer::canPlayOnSide(const Tile& tile, char side, bool opponentPassed) const {
+    // All doubles are playable on any open side in Longana
+    if (tile.getLeftPips() == tile.getRightPips()) return true;
+
+    // If the opponent passed, their side of the layout becomes open to the Computer
+    if (opponentPassed) return true;
+
+    // By default, a player can always play on their own side (represented here as 'R')
+    return (side == 'R');
 }
