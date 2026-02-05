@@ -67,20 +67,6 @@ public:
     ********************************************************************* */
     void displayHand(const Hand& hand) const;
 
-    /* *********************************************************************
-    Function Name: printMsg
-    Purpose: A generic utility to print a string message to the console.
-             Used for status updates (e.g., "Player Passed", "Invalid Input").
-    Parameters:
-             msg, a std::string passed by const reference. The message to print.
-    Return Value: None (void)
-    Algorithm:
-             1. Send the msg string to standard output (std::cout).
-             2. Append a newline if necessary.
-    Reference: None
-    ********************************************************************* */
-    void printMsg(const std::string& msg) const;
-
 };
 
 #endif
