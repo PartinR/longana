@@ -15,27 +15,27 @@
 #include "Tournament.h"
 #include "Tile.h"
 
- /* *********************************************************************
- Function Name: Round
- Purpose: Constructor to initialize a single round of Longana. It sets up
-          player scores, determines the specific engine for the round,
-          shuffles and deals tiles, and identifies the starting player.
- Parameters:
-          roundNumber, an integer passed by value. Used to calculate engine pips.
-          tournamentTargetScore, an integer passed by value.
-          humanScore, an integer passed by value (current tournament total).
-          computerScore, an integer passed by value (current tournament total).
- Return Value: None
- Algorithm:
-          1. Initialize member variables and set existing tournament scores.
-          2. Calculate the Engine value using a wrap-around formula: 7 - ((roundNumber - 1) % 7 + 1).
-          3. Shuffle the stock and deal 8 tiles to each player.
-          4. Check if the Human holds the calculated Engine; if so, Human plays first.
-          5. If not, check if the Computer holds the Engine; if so, Computer plays first.
-          6. If neither holds it (it is in the boneyard), place the Engine automatically
-             and default to the Human starting.
- Reference: None
- ********************************************************************* */
+/* *********************************************************************
+Function Name: Round
+Purpose: Constructor to initialize a single round of Longana. It sets up
+        player scores, determines the specific engine for the round,
+        shuffles and deals tiles, and identifies the starting player.
+Parameters:
+        roundNumber, an integer passed by value. Used to calculate engine pips.
+        tournamentTargetScore, an integer passed by value.
+        humanScore, an integer passed by value (current tournament total).
+        computerScore, an integer passed by value (current tournament total).
+Return Value: None
+Algorithm:
+        1. Initialize member variables and set existing tournament scores.
+        2. Calculate the Engine value using a wrap-around formula: 7 - ((roundNumber - 1) % 7 + 1).
+        3. Shuffle the stock and deal 8 tiles to each player.
+        4. Check if the Human holds the calculated Engine; if so, Human plays first.
+        5. If not, check if the Computer holds the Engine; if so, Computer plays first.
+        6. If neither holds it (it is in the boneyard), place the Engine automatically
+            and default to the Human starting.
+Reference: None
+********************************************************************* */
 Round::Round(int roundNumber, int tournamentTargetScore, int humanScore, int computerScore)
     : m_roundNumber(roundNumber),
     m_tournamentScore(tournamentTargetScore),
@@ -105,16 +105,16 @@ Round::Round(int roundNumber, int tournamentTargetScore, int humanScore, int com
 /* *********************************************************************
 Function Name: displayGameState
 Purpose: Prints the comprehensive state of the game board, including
-         scores, hands, the layout, and the boneyard for grading verification.
+        scores, hands, the layout, and the boneyard for grading verification.
 Parameters: None
 Return Value: None (void)
 Algorithm:
-         1. Print headers for Tournament Score and Round Number.
-         2. Display Computer's hand and current score.
-         3. Display Human's hand and current score.
-         4. Display the Layout with 'L' and 'R' markers.
-         5. Display every tile remaining in the boneyard.
-         6. Indicate if the previous player passed.
+        1. Print headers for Tournament Score and Round Number.
+        2. Display Computer's hand and current score.
+        3. Display Human's hand and current score.
+        4. Display the Layout with 'L' and 'R' markers.
+        5. Display every tile remaining in the boneyard.
+        6. Indicate if the previous player passed.
 Reference: None
 ********************************************************************* */
 void Round::displayGameState() {
@@ -154,16 +154,16 @@ void Round::displayGameState() {
 /* *********************************************************************
 Function Name: playRound
 Purpose: The main round loop. Continues to execute turns for each player
-         until one player wins or the game becomes blocked.
+        until one player wins or the game becomes blocked.
 Parameters: None
 Return Value: None (void)
 Algorithm:
-         1. Enter a while loop that persists until roundOver is true.
-         2. Display the full game state.
-         3. If it is the Human's turn, call m_human.playTurn(). Update pass status.
-         4. If it is the Computer's turn, call m_computer.playTurn(). Update pass status.
-         5. Toggle the turn to the other player.
-         6. Call checkWinCondition() to update roundOver status.
+        1. Enter a while loop that persists until roundOver is true.
+        2. Display the full game state.
+        3. If it is the Human's turn, call m_human.playTurn(). Update pass status.
+        4. If it is the Computer's turn, call m_computer.playTurn(). Update pass status.
+        5. Toggle the turn to the other player.
+        6. Call checkWinCondition() to update roundOver status.
 Reference: None
 ********************************************************************* */
 void Round::playRound(const Tournament& tournament) {
@@ -176,7 +176,9 @@ void Round::playRound(const Tournament& tournament) {
         if (m_isHumanTurn) {
             // Execute Human turn logic
             while (true) {
+                // Prompt user (No flush needed because cin comes next)
                 std::cout << "Enter command (play / help / save / quit): ";
+
                 std::string command;
                 std::cin >> command;
 
@@ -185,26 +187,28 @@ void Round::playRound(const Tournament& tournament) {
                     continue;
                 }
                 else if (command == "save") {
+                    // Prompt user (No flush needed because cin comes next)
                     std::cout << "Enter filename to save to: ";
+
                     std::string filename;
                     std::cin >> filename;
 
                     if (Serializer::saveGame(filename, tournament)) {
-                        std::cout << "Game saved successfully to " << filename << "\n";
+                        std::cout << "Game saved successfully to " << filename << std::endl;
                     }
                     else {
-                        std::cout << "Game save was unsuccessful\n";
+                        std::cout << "Game save was unsuccessful" << std::endl;
                     }
                 }
                 else if (command == "quit") {
-                    std::cout << "Exiting game...";
+                    std::cout << "Exiting game..." << std::endl;
                     exit(0);
                 }
                 else if (command == "play") {
                     break;
                 }
                 else {
-                    std::cout << "Invalid command. Try again.\n";
+                    std::cout << "Invalid command. Try again." << std::endl;
                 }
             }
 
@@ -231,13 +235,13 @@ Purpose: Evaluates if the round has ended and calculates points for the winner.
 Parameters: None
 Return Value: Boolean true if the round has concluded, false if it should continue.
 Algorithm:
-         1. Check if Human's hand is empty. If so, add Computer's hand pips to Human's score.
-         2. Check if Computer's hand is empty. If so, add Human's hand pips to Computer's score.
-         3. Check if the game is "Blocked" (Stock empty and both players passed).
+        1. Check if Human's hand is empty. If so, add Computer's hand pips to Human's score.
+        2. Check if Computer's hand is empty. If so, add Human's hand pips to Computer's score.
+        3. Check if the game is "Blocked" (Stock empty and both players passed).
             a. Compare total pips in both hands.
             b. The player with fewer pips wins the block and receives the opponent's pip total.
             c. If tied, 0 points are awarded.
-         4. Return true for any of the above, otherwise return false.
+        4. Return true for any of the above, otherwise return false.
 Reference: None
 ********************************************************************* */
 bool Round::checkWinCondition() {
@@ -245,7 +249,7 @@ bool Round::checkWinCondition() {
     if (m_human.isHandEmpty()) {
         int points = m_computer.getHand().getHandScore();
         m_human.setScore(m_human.getScore() + points);
-        std::cout << "*** Human Wins Round! + " << points << " points ***\n";
+        std::cout << "*** Human Wins Round! + " << points << " points ***" << std::endl;
         return true;
     }
 
@@ -253,7 +257,7 @@ bool Round::checkWinCondition() {
     if (m_computer.isHandEmpty()) {
         int points = m_human.getHand().getHandScore();
         m_computer.setScore(m_computer.getScore() + points);
-        std::cout << "*** Computer Wins Round! + " << points << " points ***\n";
+        std::cout << "*** Computer Wins Round! + " << points << " points ***" << std::endl;
         return true;
     }
 
@@ -270,15 +274,15 @@ bool Round::checkWinCondition() {
         if (humanTotal < computerTotal) {
             int points = computerTotal;
             m_human.setScore(m_human.getScore() + points);
-            std::cout << "*** Human Wins the Block! + " << points << " points ***\n";
+            std::cout << "*** Human Wins the Block! + " << points << " points ***" << std::endl;
         }
         else if (computerTotal < humanTotal) {
             int points = humanTotal;
             m_computer.setScore(m_computer.getScore() + points);
-            std::cout << "*** Computer Wins the Block! + " << points << " points ***\n";
+            std::cout << "*** Computer Wins the Block! + " << points << " points ***" << std::endl;
         }
         else {
-            std::cout << "*** It's a Tie! 0 points awarded. ***\n";
+            std::cout << "*** It's a Tie! 0 points awarded. ***" << std::endl;
         }
 
         return true;
@@ -308,13 +312,15 @@ void Round::help() {
         Tile t = hand.getTileAtIndex(i);
 
         if (m_layout.isLegalMove(t, 'L')) {
-            std::cout << t.getLeftPips() << "-" << t.getRightPips() << std::endl;
+            std::cout << "Suggestion: Play " << t.getLeftPips() << "-" << t.getRightPips()
+                << " on the LEFT" << std::endl;
             foundMove = true;
             break;
         }
 
         if (m_computerPassed && m_layout.isLegalMove(t, 'R')) {
-            std::cout << t.getLeftPips() << "-" << t.getRightPips() << std::endl;
+            std::cout << "Suggestion: Play " << t.getLeftPips() << "-" << t.getRightPips() 
+                << " on the RIGHT" << std::endl;
             foundMove = true;
             break;
         }
