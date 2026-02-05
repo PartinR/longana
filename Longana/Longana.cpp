@@ -34,10 +34,10 @@ int main() {
     Tournament game;
 
     // Display menu options to user
-    std::cout << "Welcome to Longana!\n";
-    std::cout << "1. Start New Game\n";
-    std::cout << "2. Load Game\n";
-    std::cout << ">> ";
+    std::cout << "Welcome to Longana!\n"
+        << "1. Start New Game\n"
+        << "2. Load Game\n"
+        << ">> " << std::flush;
 
     int choice;
     if (!(std::cin >> choice)) {
@@ -46,16 +46,19 @@ int main() {
     }
 
     // Handle load game scenario
-    // 
     if (choice == 2) {
         std::string filename;
+
         std::cout << "Enter filename to load: ";
         std::cin >> filename;
+
+        // Attempt to populate the tournament object with data from file
         if (Serializer::loadGame(filename, game)) {
-            std::cout << "Game loaded successfully.\n";
+            std::cout << "Game loaded successfully." << std::endl;
         }
         else {
-            std::cerr << "Error: Could not load game. Starting new game instead.\n";
+            // If loading fails, print error and continue to new game
+            std::cerr << "Error: Could not load game. Starting new game instead." << std::endl;
         }
     }
 
