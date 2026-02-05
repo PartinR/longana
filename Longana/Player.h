@@ -129,7 +129,7 @@ public:
     Algorithm: Return m_hand.isEmpty().
     Reference: None
     ********************************************************************* */
-    bool isHandEmpty() const;
+    bool isHandEmpty() const { return m_hand.isEmpty(); }
 
     /* *********************************************************************
     Function Name: getHandSize
@@ -139,7 +139,7 @@ public:
     Algorithm: Return m_hand.getSize().
     Reference: None
     ********************************************************************* */
-    int getHandSize() const;
+    int getHandSize() const { return m_hand.getSize(); }
 
     /* *********************************************************************
     Function Name: playTurn
