@@ -15,18 +15,15 @@
 
 /* *********************************************************************
 Function Name: addLeftTile
-Purpose: Adds a tile to the left end of the board, ensuring proper
-        orientation so that touching pips match.
+Purpose: Adds a tile to the left side of the layout. This often involves
+        flipping the tile if necessary to match the pips.
 Parameters:
-        tile, a Tile object passed by const reference. The tile to add.
-Return Value: Boolean true if the tile was added; false otherwise.
+        tile, a Tile object passed by const reference. The tile to be added.
+Return Value: true if the tile was added, false otherwise.
 Algorithm:
-        1. If the layout is empty, add the tile to the front.
-        2. Retrieve the current leftmost pip value (leftEdge).
-        3. If the tile's right side matches leftEdge, add it as is.
-        4. If the tile's left side matches leftEdge, flip the tile
-            so the right side matches, then add it.
-        5. Return true if added, false if the move was illegal.
+        1. Push the tile to the front of the deque (m_layout).
+        2. (Note: Logic to orient/flip the tile is usually handled prior
+            to calling this or within the detailed implementation).
 Reference: None
 ********************************************************************* */
 bool Layout::addLeftTile(const Tile& tile) {
@@ -56,18 +53,12 @@ bool Layout::addLeftTile(const Tile& tile) {
 
 /* *********************************************************************
 Function Name: addRightTile
-Purpose: Adds a tile to the right end of the board, ensuring proper
-        orientation so that touching pips match.
+Purpose: Adds a tile to the right side of the layout.
 Parameters:
-        tile, a Tile object passed by const reference. The tile to add.
-Return Value: Boolean true if the tile was added; false otherwise.
+        tile, a Tile object passed by const reference. The tile to be added.
+Return Value: true if the tile was added, false otherwise.
 Algorithm:
-        1. If the layout is empty, add the tile to the back.
-        2. Retrieve the current rightmost pip value (rightEdge).
-        3. If the tile's left side matches rightEdge, add it as is.
-        4. If the tile's right side matches rightEdge, flip the tile
-            so the left side matches, then add it.
-        5. Return true if added, false if the move was illegal.
+        1. Push the tile to the back of the deque (m_layout).
 Reference: None
 ********************************************************************* */
 bool Layout::addRightTile(const Tile& tile) {
@@ -130,17 +121,16 @@ bool Layout::isLegalMove(const Tile& tile, char side) const {
 
 /* *********************************************************************
 Function Name: findValidMoves
-Purpose: Determines if the provided hand contains at least one tile
-        that can be played on the current layout.
+Purpose: Scans a player's hand to see if *any* tile can be legally played
+        on the current layout.
 Parameters:
         hand, a Hand object passed by const reference.
-Return Value: Boolean true if a move exists, false otherwise.
+Return Value: true if at least one legal move exists, false otherwise.
 Algorithm:
-        1. If layout is empty, return true (any tile in hand can be played).
-        2. Iterate through all tiles in the hand.
-        3. For each tile, check if it can play on 'L' or 'R' using isLegalMove.
-        4. If any legal move is found, return true immediately.
-        5. If the loop completes, return false.
+        1. Iterate through every tile in the Hand.
+        2. For each tile, check isLegalMove on 'L' and 'R'.
+        3. If any check returns true, return true immediately.
+        4. If loop finishes without success, return false.
 Reference: None
 ********************************************************************* */
 bool Layout::findValidMoves(const Hand& hand) const {
@@ -162,12 +152,15 @@ bool Layout::findValidMoves(const Hand& hand) const {
 
 /* *********************************************************************
 Function Name: displayLayout
-Purpose: Prints the current sequence of tiles on the board to the console.
+Purpose: Prints the current state of the board to the console, showing
+        the chain of tiles from left to right.
 Parameters: None
 Return Value: None (void)
 Algorithm:
-        1. Iterate through the m_layout deque from front to back.
-        2. Print each tile formatted as "Left-Right".
+        1. Print "L".
+        2. Iterate through m_layout deque from begin to end.
+        3. Print each tile.
+        4. Print "R".
 Reference: None
 ********************************************************************* */
 void Layout::displayLayout() const {
@@ -177,6 +170,24 @@ void Layout::displayLayout() const {
     }
 }
 
+/* *********************************************************************
+Function Name: toString
+Purpose: Converts the current board layout into a serialized string format.
+        This representation includes markers for the left and right ends
+        to maintain board orientation during the save/load process.
+Parameters: None
+Return Value: A std::string representing the board (e.g., "L 6-6 6-1 1-0 R").
+Algorithm:
+        1. Initialize a result string with the left-end marker "L ".
+        2. Iterate through each Tile in the m_layout deque from the
+            front to the back.
+        3. For each tile, convert the pip values to a "Left-Right "
+            string format and append it to the result.
+        4. Append the right-end marker "R" to indicate the end of the
+            line of play.
+        5. Return the completed string.
+Reference: None
+********************************************************************* */
 std::string Layout::toString() const {
     std::string layoutStr = "L ";
 
@@ -190,18 +201,24 @@ std::string Layout::toString() const {
 
 /* *********************************************************************
 Function Name: loadFromString
-Purpose: Reconstructs the game layout from a saved string.
+Purpose: Reconstructs the board layout by parsing a space-delimited string
+        of tiles. Used primarily when restoring the game board from a
+        saved state.
 Parameters:
-        data, a const std::string passed by reference containing the
-            sequence of tiles (e.g., "6-6 6-1 1-2").
+        data, a const std::string passed by reference. The raw string
+            containing board data (e.g., "L 6-6 6-1 1-0 R").
 Return Value: None (void)
 Algorithm:
-        1. Clear the current m_layout vector to remove old board state.
-        2. Use a std::stringstream to tokenize the input string by spaces.
-        3. For each tile token:
-            a. Identify the pips by locating the '-' delimiter.
-            b. Convert substrings to integers.
-            c. Construct a Tile and add it to the m_layout vector.
+        1. Clear any existing tiles from the m_layout deque.
+        2. Wrap the input string in a std::stringstream for easy tokenization.
+        3. While there are tokens in the stream:
+            a. Skip tokens that are strictly markers (like "L" or "R").
+            b. Locate the position of the dash ('-') within the tile token.
+            c. If found, extract the substring before the dash as the 'left' value.
+            d. Extract the substring after the dash as the 'right' value.
+            e. Convert these substrings to integers using std::stoi.
+            f. Construct a new Tile object and push it to the back of
+                the m_layout deque to maintain the sequence.
 Reference: None
 ********************************************************************* */
 void Layout::loadFromString(const std::string& data) {

@@ -80,8 +80,6 @@ public:
     ********************************************************************* */
     inline bool isEmpty() const { return m_layout.empty(); }
 
-    void loadFromString(const std::string& data);
-
     /* --- Mutators --- */
 
     /* *********************************************************************
@@ -174,7 +172,49 @@ public:
     ********************************************************************* */
     void displayLayout() const;
 
+    /* *********************************************************************
+    Function Name: toString
+    Purpose: Converts the current board layout into a serialized string format.
+            This representation includes markers for the left and right ends
+            to maintain board orientation during the save/load process.
+    Parameters: None
+    Return Value: A std::string representing the board (e.g., "L 6-6 6-1 1-0 R").
+    Algorithm:
+            1. Initialize a result string with the left-end marker "L ".
+            2. Iterate through each Tile in the m_layout deque from the
+                front to the back.
+            3. For each tile, convert the pip values to a "Left-Right "
+                string format and append it to the result.
+            4. Append the right-end marker "R" to indicate the end of the
+                line of play.
+            5. Return the completed string.
+    Reference: None
+    ********************************************************************* */
     std::string toString() const;
+
+    /* *********************************************************************
+    Function Name: loadFromString
+    Purpose: Reconstructs the board layout by parsing a space-delimited string
+            of tiles. Used primarily when restoring the game board from a
+            saved state.
+    Parameters:
+            data, a const std::string passed by reference. The raw string
+                containing board data (e.g., "L 6-6 6-1 1-0 R").
+    Return Value: None (void)
+    lgorithm:
+            1. Clear any existing tiles from the m_layout deque.
+            2. Wrap the input string in a std::stringstream for easy tokenization.
+            3. While there are tokens in the stream:
+                a. Skip tokens that are strictly markers (like "L" or "R").
+                b. Locate the position of the dash ('-') within the tile token.
+                c. If found, extract the substring before the dash as the 'left' value.
+                d. Extract the substring after the dash as the 'right' value.
+                e. Convert these substrings to integers using std::stoi.
+                f. Construct a new Tile object and push it to the back of
+                    the m_layout deque to maintain the sequence.
+    Reference: None
+    ********************************************************************* */
+    void loadFromString(const std::string& data);
 
 private:
     // A double-ended queue to store the line of tiles
