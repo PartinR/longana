@@ -15,32 +15,6 @@
 #include "Tile.h"
 
 /* *********************************************************************
-Function Name: canPlayOnSide
-Purpose: Determines if the human player is legally allowed to place a
-        specific tile on a specific side of the layout.
-Parameters:
-        tile, a Tile object passed by const reference. The tile to check.
-        side, a char passed by value. 'L' for Human side, 'R' for Computer side.
-        opponentPassed, a bool passed by value. Flag indicating if computer passed.
-Return Value: Boolean true if the move is permitted by rules, false otherwise.
-Algorithm:
-        1. If the tile is a double, it is legally playable on any side.
-        2. If the opponent (Computer) passed their turn, the Human can play on the 'R' side.
-        3. Otherwise, the Human is restricted to their own side ('L').
-Reference: None
-********************************************************************* */
-bool Human::canPlayOnSide(const Tile& tile, char side, bool opponentPassed) const {
-    // Doubles can be played on either side regardless of pass status
-    if (tile.getLeftPips() == tile.getRightPips()) return true;
-
-    // The Human can play on the Computer's side (R) only if the Computer passed
-    if (opponentPassed) return true;
-
-    // Standard rule: Humans play on the Left side of the engine
-    return (side == 'L');
-}
-
-/* *********************************************************************
 Function Name: playTurn
 Purpose: Manages the interactive turn for the human player, including
         move validation, drawing from the boneyard, and user input.
@@ -165,4 +139,30 @@ bool Human::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
 
         return true;
     }
+}
+
+/* *********************************************************************
+Function Name: canPlayOnSide
+Purpose: Determines if the human player is legally allowed to place a
+        specific tile on a specific side of the layout.
+Parameters:
+        tile, a Tile object passed by const reference. The tile to check.
+        side, a char passed by value. 'L' for Human side, 'R' for Computer side.
+        opponentPassed, a bool passed by value. Flag indicating if computer passed.
+Return Value: Boolean true if the move is permitted by rules, false otherwise.
+Algorithm:
+        1. If the tile is a double, it is legally playable on any side.
+        2. If the opponent (Computer) passed their turn, the Human can play on the 'R' side.
+        3. Otherwise, the Human is restricted to their own side ('L').
+Reference: None
+********************************************************************* */
+bool Human::canPlayOnSide(const Tile& tile, char side, bool opponentPassed) const {
+    // Doubles can be played on either side regardless of pass status
+    if (tile.getLeftPips() == tile.getRightPips()) return true;
+
+    // The Human can play on the Computer's side (R) only if the Computer passed
+    if (opponentPassed) return true;
+
+    // Standard rule: Humans play on the Left side of the engine
+    return (side == 'L');
 }
