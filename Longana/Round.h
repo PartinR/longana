@@ -119,6 +119,13 @@ public:
 
     inline void setHumanTurn(bool isHumanTurn) { m_isHumanTurn = isHumanTurn; }
 
+    inline void setTargetScore(int score) { m_tournamentScore = score; }
+
+    inline void setScores(int humanScore, int computerScore) {
+        m_human.setScore(humanScore);
+        m_computer.setScore(computerScore);
+    }
+
     /* --- Utility Functions --- */
 
     /* *********************************************************************

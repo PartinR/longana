@@ -53,54 +53,6 @@ Round::Round(int roundNumber, int tournamentTargetScore, int humanScore, int com
     m_human.setScore(humanScore);
     m_computer.setScore(computerScore);
 
-    // Determine the Engine for this specific round (e.g., Round 1 is 6-6, Round 2 is 5-5)
-    int enginePips = 7 - ((roundNumber - 1) % 7 + 1);
-    m_engineValue = enginePips;
-    Tile engine(enginePips, enginePips);
-
-    // Prepare the deck
-    m_stock.shuffle();
-
-    // Deal 8 tiles to each player per Longana rules
-    for (int i = 0; i < 8; ++i) {
-        Tile t;
-        m_stock.drawTile(t);
-        m_human.addTileToHand(t);
-
-        m_stock.drawTile(t);
-        m_computer.addTileToHand(t);
-    }
-
-    // Identify who starts the round by checking for the engine tile
-    bool engineFound = false;
-
-    if (m_human.removeSpecificTile(engine)) {
-        m_layout.setEngine(engine);
-        // Human played the engine, so the next turn is the Computer's
-        m_isHumanTurn = false;
-        std::cout << " >> Human holds the Engine " << enginePips << "-" << enginePips << " and plays first.\n";
-        engineFound = true;
-    }
-    else if (m_computer.removeSpecificTile(engine)) {
-        m_layout.setEngine(engine);
-        // Computer played the engine, so the next turn is the Human's
-        m_isHumanTurn = true;
-        std::cout << " >> Computer holds the Engine " << enginePips << "-" << enginePips << " and plays first.\n";
-        engineFound = true;
-    }
-
-    // Handle case where engine is in the boneyard rather than a player's hand
-    if (!engineFound) {
-        std::cout << " >> Neither player holds the Engine " << enginePips << "-" << enginePips << ".\n";
-
-        // Remove the actual tile from the stock so it isn't drawn later
-        m_stock.removeSpecificTile(engine);
-
-        // Place the engine on the layout to start the round
-        m_layout.setEngine(engine);
-        m_isHumanTurn = true;
-        std::cout << " >> Engine placed from boneyard. Human starts.\n";
-    }
 }
 
 /* *********************************************************************
@@ -293,16 +245,89 @@ bool Round::checkWinCondition() {
 }
 
 void Round::prepareRound(int roundNumber) {
+    // 1. Reset Game State
     m_roundNumber = roundNumber;
-
-    m_human.getHand().clearHand();
-    m_computer.getHand().clearHand();
-    m_layout.clearLayout();
-    m_stock = Stock();
-
     m_humanPassed = false;
     m_computerPassed = false;
-    m_isHumanTurn = true;
+
+    // Clear containers to ensure no leftover data from previous rounds
+    m_layout.clearLayout();
+    m_human.getHand().clearHand();
+    m_computer.getHand().clearHand();
+
+    // 2. Initialize and Shuffle Stock
+    m_stock.initializeFullSet();
+    m_stock.shuffle();
+
+    // 3. Deal 8 tiles to each player per Longana rules
+    for (int i = 0; i < 8; ++i) {
+        Tile t;
+        // Check to ensure stock isn't empty (though it shouldn't be at start)
+        if (m_stock.drawTile(t)) {
+            m_human.getHand().addTile(t);
+        }
+        if (m_stock.drawTile(t)) {
+            m_computer.getHand().addTile(t);
+        }
+    }
+
+    // 4. Calculate Engine Value (Double-Double based on round)
+    // Round 1 = 6-6, Round 2 = 5-5 ... Round 7 = 0-0, Round 8 = 6-6
+    int pips = 6 - ((m_roundNumber - 1) % 7);
+    Tile engineTile(pips, pips);
+    m_engineValue = pips;
+
+    // 5. Identify who starts the round by checking for the engine tile
+    bool humanHasEngine = false;
+    bool computerHasEngine = false;
+
+    // Check Human Hand
+    for (int i = 0; i < m_human.getHand().getSize(); ++i) {
+        if (m_human.getHand().getTileAtIndex(i) == engineTile) {
+            humanHasEngine = true;
+
+            // Remove from hand and play immediately
+            Tile played;
+            m_human.getHand().playTile(i, played);
+            m_layout.setEngine(played);
+            break;
+        }
+    }
+
+    // Check Computer Hand (if Human didn't have it)
+    if (!humanHasEngine) {
+        for (int i = 0; i < m_computer.getHand().getSize(); ++i) {
+            if (m_computer.getHand().getTileAtIndex(i) == engineTile) {
+                computerHasEngine = true;
+
+                Tile played;
+                m_computer.getHand().playTile(i, played);
+                m_layout.setEngine(played);
+                break;
+            }
+        }
+    }
+
+    // 6. Set Turn Logic based on Engine ownership
+    if (humanHasEngine) {
+        std::cout << " >> Human holds the Engine " << pips << "-" << pips << " and plays first.\n";
+        m_isHumanTurn = false; // Next turn is Computer's because Human just played
+    }
+    else if (computerHasEngine) {
+        std::cout << " >> Computer holds the Engine " << pips << "-" << pips << " and plays first.\n";
+        m_isHumanTurn = true; // Next turn is Human's because Computer just played
+    }
+    else {
+        // Neither has it; draw from stock and place it
+        std::cout << " >> Neither player holds the Engine " << pips << "-" << pips << ".\n";
+        std::cout << " >> Engine placed from boneyard. Human starts.\n";
+
+        if (m_stock.removeSpecificTile(engineTile)) {
+            m_layout.setEngine(engineTile);
+        }
+        // Default to Human if engine was in stock
+        m_isHumanTurn = true; 
+    }
 }
 
 void Round::help() {
