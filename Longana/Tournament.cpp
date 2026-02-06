@@ -39,48 +39,65 @@ void Tournament::playTournament() {
     std::cout << "          LONGANA TOURNAMENT           \n";
     std::cout << "=======================================\n";
 
-    // Input validation loop for setting the tournament goal
-    while (true) {
-        std::cout << "Enter score needed to win: ";
-        if (std::cin >> m_targetScore && m_targetScore > 0) {
-            break;
-        }
-        else {
-            // Clear error flags and discard bad input from the buffer
+    // --- Step 1: Target Score Setup ---
+    if (m_targetScore == 0) {
+        // New Game: Ask for score
+        while (true) {
+            std::cout << "Enter score needed to win: ";
+            if (std::cin >> m_targetScore && m_targetScore > 0) {
+                std::cin.ignore(1000, '\n');
+                break;
+            }
             std::cout << "Invalid Input. Please enter a positive integer.\n";
             std::cin.clear();
             std::cin.ignore(1000, '\n');
         }
+        std::cout << "Target score set to: " << m_targetScore << "\n" << std::endl;
+    }
+    else {
+        // Loaded Game: Score already exists
+        std::cout << "Resuming Tournament. Target score: " << m_targetScore << "\n" << std::endl;
     }
 
-    std::cout << "Target score set to: " << m_targetScore << "\n" << std::endl;
-
-    // Main tournament loop: continues until a player crosses the score threshold
+    // --- Step 2: Main Tournament Loop ---
     while (m_totalHumanScore < m_targetScore && m_totalComputerScore < m_targetScore) {
 
-        std::cout << "Starting Round. . ." << std::endl;
+        // Use the persistent member variable
+        Round& currentRound = m_currentRound;
 
-        // Pass the persistent tournament state into the Round coordinator
-        Round currentRound(m_roundNumber, m_targetScore, m_totalHumanScore, m_totalComputerScore);
+        // --- SYNC STEP: Pass Tournament Data to Round ---
+        // We must do this because the Round constructor is now empty!
+        currentRound.setTargetScore(m_targetScore);
+        currentRound.setScores(m_totalHumanScore, m_totalComputerScore);
+        currentRound.setRoundNumber(m_roundNumber);
 
-        // Execute the round's turn-based logic
+        // --- PREPARE STEP: Deal Cards ---
+        if (!m_isResumed) {
+            std::cout << "Starting Round " << m_roundNumber << ". . .\n";
+
+            // This function SHUFFLES and DEALS the cards.
+            // Without this, everyone has 0 cards and the game ends instantly.
+            currentRound.prepareRound(m_roundNumber);
+        }
+        else {
+            std::cout << "Resuming Round " << m_roundNumber << " from saved state. . .\n";
+            m_isResumed = false;
+        }
+
+        // --- PLAY STEP: Execute Logic ---
         currentRound.playRound(*this);
 
-        // Update tournament totals based on the outcome of the round
+        // --- UPDATE STEP: Get Results ---
         m_totalHumanScore = currentRound.getHumanScore();
         m_totalComputerScore = currentRound.getComputerScore();
 
-        // Check if we need to proceed to another round
         if (m_totalHumanScore < m_targetScore && m_totalComputerScore < m_targetScore) {
             std::cout << "Press Enter to start the next round...";
-            std::cin.ignore();
-            std::cin.get(); // Pause execution for user readiness
-
+            std::cin.get();
             m_roundNumber++;
         }
     }
 
-    // Tournament end: announce final results
     announceWinner();
 }
 

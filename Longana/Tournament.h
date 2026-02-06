@@ -38,7 +38,8 @@ public:
     Reference: None
     ********************************************************************* */
     Tournament()
-        : m_totalHumanScore(0), m_totalComputerScore(0), m_targetScore(0), m_roundNumber(1), m_currentRound(1, 0, 0, 0)
+        : m_totalHumanScore(0), m_totalComputerScore(0), m_targetScore(0), 
+        m_roundNumber(1), m_isResumed(false), m_currentRound(1, 0, 0, 0)
     {
     }
 
@@ -94,6 +95,8 @@ public:
 
     inline const void setComputerPassed(bool passed) { m_currentRound.setComputerPassed(passed); }
 
+    void setIsResumed(bool resumed) { m_isResumed = resumed; }
+
     /* --- Utility Functions --- */
 
     /* *********************************************************************
@@ -121,6 +124,7 @@ private:
     int m_totalComputerScore;
     int m_targetScore;
     int m_roundNumber;
+    bool m_isResumed;
 
     Round m_currentRound;
 
