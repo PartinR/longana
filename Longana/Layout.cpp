@@ -229,7 +229,9 @@ void Layout::loadFromString(const std::string& data) {
     std::stringstream ss(data);
     std::string token;
 
-    while (ss << token) {
+    while (ss >> token) {
+        if (token == "L" || token == "R") { continue; }
+
         size_t dashPos = token.find("-");
 
         // If there exists a dashPos, execute

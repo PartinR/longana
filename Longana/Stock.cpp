@@ -164,7 +164,7 @@ void Stock::loadFromString(const std::string& data) {
     std::stringstream ss(data);
     std::string token;
 
-    while (ss << token) {
+    while (ss >> token) {
         size_t dashPos = token.find("-");
 
         // If there exists a dashPos, execute
@@ -175,6 +175,16 @@ void Stock::loadFromString(const std::string& data) {
 
             // Create the Tile and store it to the stock
             m_tiles.push_back(Tile(left, right));
+        }
+    }
+}
+
+void Stock::initializeFullSet() {
+    m_tiles.clear();
+    // Double loop to generate all unique domino pairs (0-0 through 6-6)
+    for (int i = 0; i <= 6; ++i) {
+        for (int j = i; j <= 6; ++j) {
+            m_tiles.push_back(Tile(i, j));
         }
     }
 }
