@@ -137,8 +137,8 @@ bool Serializer::loadGame(const std::string& filename, Tournament& tournament) {
                 int round;
                 ss >> round;
 
-                tournament.getCurrentRound().prepareRound(round);
                 tournament.setRoundNumber(round);
+                tournament.getCurrentRound().setRoundNumber(round);
             }
         }
         // --- Context Switching ---
@@ -173,13 +173,17 @@ bool Serializer::loadGame(const std::string& filename, Tournament& tournament) {
         }
         // --- Parse Board Layout --- 
         else if (key == "Layout:") {
-            if (std::getline(inFile, line)) {
-                tournament.getCurrentRound().getLayout().loadFromString(line);
+            std::string layoutData;
+
+            if (std::getline(inFile, layoutData)) {
+                tournament.getCurrentRound().getLayout().loadFromString(layoutData);
             }
         }
         else if (key == "Boneyard:") {
-            if (std::getline(inFile, line)) {
-                tournament.getCurrentRound().getStock().loadFromString(line);
+            std::string boneyardData;
+            
+            if (std::getline(inFile, boneyardData)) {
+                tournament.getCurrentRound().getStock().loadFromString(boneyardData);
             }
         }
         // --- Parse Turn Flags ---
@@ -212,5 +216,8 @@ bool Serializer::loadGame(const std::string& filename, Tournament& tournament) {
     }
 
     inFile.close();
+
+    tournament.setIsResumed(true);
+
     return true;
 }
