@@ -109,7 +109,7 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
         // m_hand.getSize() represent the index of the drawn tile
         m_hand.playTile(m_hand.getSize() - 1, played);
 
-        // Again, prioritize playing on the Computer's own side
+        // Add the played tile to the layout
         if (fitR) {
             layout.addRightTile(played);
             std::cout << "Computer placed drawn tile on RIGHT." << std::endl;
