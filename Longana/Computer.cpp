@@ -41,7 +41,7 @@ Algorithm:
 Reference: None
 ********************************************************************* */
 bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
-    std::cout << "Computer is thinking...\n";
+    std::cout << "Computer is thinking..." << std::endl;
 
     // Variables to track the best identified move in the current hand
     int bestIndex = -1;
@@ -49,17 +49,17 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
 
     // Step 1: Iterate through the hand to find a legal move
     for (int i = 0; i < m_hand.getSize(); ++i) {
-        Tile t = m_hand.getTileAtIndex(i);
+        Tile tile = m_hand.getTileAtIndex(i);
 
         // Prioritize playing on the Computer's own side (Right)
-        if (canPlayOnSide(t, 'R', opponentPassed) && layout.isLegalMove(t, 'R')) {
+        if (canPlayOnSide(tile, 'R', opponentPassed) && layout.isLegalMove(tile, 'R')) {
             bestIndex = i;
             bestSide = 'R';
             break;
         }
 
         // If no Right move, check if the tile can be played on the Left
-        if (bestIndex == -1 && canPlayOnSide(t, 'L', opponentPassed) && layout.isLegalMove(t, 'L')) {
+        if (bestIndex == -1 && canPlayOnSide(tile, 'L', opponentPassed) && layout.isLegalMove(tile, 'L')) {
             bestIndex = i;
             bestSide = 'L';
         }
@@ -72,51 +72,58 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
 
         if (bestSide == 'R') {
             layout.addRightTile(played);
-            std::cout << "Computer placed " << played.getLeftPips() << "-" << played.getRightPips() << " on the RIGHT.\n";
+            std::cout << "Computer placed " << played.getLeftPips() << "-" << played.getRightPips() 
+                << " on the RIGHT." << std::endl;
         }
         else {
             layout.addLeftTile(played);
-            std::cout << "Computer placed " << played.getLeftPips() << "-" << played.getRightPips() << " on the LEFT.\n";
+            std::cout << "Computer placed " << played.getLeftPips() << "-" << played.getRightPips() 
+                << " on the LEFT." << std::endl;
         }
+
         return true;
     }
 
     // Step 2: Logic for drawing if no moves were found in hand
+    // If no moves and no tiles left to draw, the Computer must pass
     if (stock.isEmpty()) {
-        // If no moves and no tiles left to draw, the Computer must pass
-        std::cout << "Computer cannot move and stock is empty. Computer passes.\n";
+        std::cout << "Computer cannot move and stock is empty. Computer passes." << std::endl;
         return false;
     }
 
-    // Draw a single tile from the boneyard
+    // Draw a single tile from the boneyard and add it to the Computer's Hand
     Tile drawn;
     stock.drawTile(drawn);
     m_hand.addTile(drawn);
-    std::cout << "Computer drew a tile.\n";
+    std::cout << "Computer drew: " << drawn.getLeftPips() << "-" << drawn.getRightPips() << std::endl;
 
     // Check if the drawn tile is immediately playable
     bool fitR = canPlayOnSide(drawn, 'R', opponentPassed) && layout.isLegalMove(drawn, 'R');
     bool fitL = canPlayOnSide(drawn, 'L', opponentPassed) && layout.isLegalMove(drawn, 'L');
 
     if (fitR || fitL) {
+        // Create tile for 'drawn' tile to be copied into
         Tile played;
+
         // The drawn tile is at the very end of the hand
+        // m_hand.getSize() represent the index of the drawn tile
         m_hand.playTile(m_hand.getSize() - 1, played);
 
         // Again, prioritize playing on the Computer's own side
         if (fitR) {
             layout.addRightTile(played);
-            std::cout << "Computer placed drawn tile on RIGHT.\n";
+            std::cout << "Computer placed drawn tile on RIGHT." << std::endl;
         }
         else {
             layout.addLeftTile(played);
-            std::cout << "Computer placed drawn tile on LEFT.\n";
+            std::cout << "Computer placed drawn tile on LEFT." << std::endl;
         }
+
         return true;
     }
 
     // If even the drawn tile cannot be played, the Computer passes
-    std::cout << "Computer passes.\n";
+    std::cout << "Computer passes." << std::endl;
     return false;
 }
 
@@ -126,7 +133,7 @@ Purpose: Determines if a specific tile is legally eligible to be placed
         on a certain side of the layout based on Longana rules.
 Parameters:
         tile, a Tile object passed by const reference. The tile to check.
-        side, a char passed by value. 'L' for Computer's side, 'R' for Human's side.
+        side, a char passed by value. 'R' for Computer's side, 'L' for Human's side.
         opponentPassed, a bool passed by value. Flag indicating if the human passed.
 Return Value: Boolean true if the tile is allowed on that side, false otherwise.
 Algorithm:
@@ -136,12 +143,13 @@ Algorithm:
 Reference: None
 ********************************************************************* */
 bool Computer::canPlayOnSide(const Tile& tile, char side, bool opponentPassed) const {
-    // All doubles are playable on any open side in Longana
-    if (tile.getLeftPips() == tile.getRightPips()) return true;
+    // 1. Computer can ALWAYS play on its own side (Right)
+    if (side == 'R') { return true; }
 
-    // If the opponent passed, their side of the layout becomes open to the Computer
-    if (opponentPassed) return true;
+    // 2. Computer can play on opponent's side (Left) ONLY if:
+    //    a. The tile is a Double
+    //    b. OR the opponent passed their turn
+    if (tile.isDouble() || opponentPassed) { return true; }
 
-    // By default, a player can always play on their own side (represented here as 'R')
-    return (side == 'R');
+    return false;
 }

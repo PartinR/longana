@@ -61,7 +61,7 @@ private:
             on a certain side of the layout based on Longana rules.
     Parameters:
             tile, a Tile object passed by const reference. The tile to check.
-            side, a char passed by value. 'L' for Computer's side, 'R' for Human's side.
+            side, a char passed by value. 'R' for Computer's side, 'L' for Human's side.
             opponentPassed, a bool passed by value. Flag indicating if the human passed.
     Return Value: Boolean true if the tile is allowed on that side, false otherwise.
     Algorithm:
