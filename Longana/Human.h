@@ -24,26 +24,30 @@ public:
 
     /* *********************************************************************
     Function Name: playTurn
-    Purpose: Executes the logic for the Human player's turn. It prompts the
-             user for input to select a tile and a side to play on. It handles
-             input validation and enforces game rules.
+    Purpose: Executes the logic for the Human player's turn. Handles user
+            input for tile and side selection, manages drawing from the
+            stock, and enforces immediate play rules.
     Parameters:
-             layout, a Layout object passed by reference. Represents the current
-                     board state. Modified when the user places a tile.
-             stock, a Stock object passed by reference. Represents the boneyard.
-                    Modified when the user draws a tile.
-             opponentPassed, a boolean passed by value. Indicates if the computer
-                             passed its last turn (allowing play on the opponent's side).
-    Return Value: true if a move was made (tile placed), false if the player passed.
+            layout, a Layout object passed by reference. The current board.
+            stock, a Stock object passed by reference. The boneyard.
+            opponentPassed, a bool passed by value. Indicates if Computer passed.
+    Return Value: Boolean true if a tile was placed, false if the Human passed.
     Algorithm:
-             1. Check if the player has any legal moves.
-             2. If no moves are available, automatically draw from Stock.
-             3. If a drawn tile is playable, play it immediately (per Longana rules).
-             4. If moves are available, prompt user to select a tile index.
-             5. If the tile can be played on multiple sides, prompt for side selection.
-             6. Validate the move using canPlayOnSide.
-             7. If valid, update Layout and Hand, then return true.
-             8. If invalid, display error and repeat loop.
+            1. Scan the current hand to determine if any legal moves exist.
+            2. If a valid move exists in the hand:
+                a. Prompt the user to select a tile by its index.
+                b. If the tile is playable on both sides, prompt the user
+                    to choose 'L' or 'R'.
+                c. Validate the selection; if legal, remove from hand,
+                    update Layout, and return true.
+            3. If no legal move exists in the hand:
+                a. Check if the stock is empty. If so, return false (Pass).
+                b. Draw a single tile from the stock and add it to the hand.
+                c. Check if the newly drawn tile is immediately playable
+                    on either the Left or Right side.
+                d. If playable, force the user to play it immediately
+                    and return true.
+                e. If not playable, return false (Pass).
     Reference: None
     ********************************************************************* */
     bool playTurn(Layout& layout, Stock& stock, bool opponentPassed) override;
@@ -53,17 +57,16 @@ private:
     /* *********************************************************************
     Function Name: canPlayOnSide
     Purpose: Helper function to validate if a selected tile can legally be
-             placed on a specific side of the layout.
+            placed on a specific side of the layout.
     Parameters:
-             tile, a Tile object passed by const reference. The tile the user wants to play.
-             side, a char passed by value. The side chosen ('L' for Left, 'R' for Right).
-             opponentPassed, a boolean passed by value. Used to validate if the
-                             user is allowed to play on the Computer's side.
+            tile, a Tile object passed by const reference. The tile the user wants to play.
+            side, a char passed by value. The side chosen ('L' for Left, 'R' for Right).
+                user is allowed to play on the Computer's side.
     Return Value: true if the move is legal, false otherwise.
     Algorithm:
-             1. Identify the open pip value on the specified side of the Layout.
-             2. Check if the tile matches that value.
-             3. Check if the side belongs to the player (Human side) or if the
+            1. Identify the open pip value on the specified side of the Layout.
+            2. Check if the tile matches that value.
+            3. Check if the side belongs to the player (Human side) or if the
                 Condition (opponentPassed) allows play on the other side.
     Reference: None
     ********************************************************************* */
