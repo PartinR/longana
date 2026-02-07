@@ -93,6 +93,7 @@ void Tournament::playTournament() {
 
         if (m_totalHumanScore < m_targetScore && m_totalComputerScore < m_targetScore) {
             std::cout << "Press Enter to start the next round...";
+            std::cin.ignore();
             std::cin.get();
             m_roundNumber++;
         }
