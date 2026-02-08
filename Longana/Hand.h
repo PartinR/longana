@@ -43,7 +43,7 @@ public:
     Algorithm: Standard vector destructor handles memory cleanup automatically.
     Reference: None
     ********************************************************************* */
-    virtual ~Hand() { m_tiles.clear(); }
+    virtual ~Hand() = default;
 
     /* --- Selectors --- */
 
@@ -74,10 +74,10 @@ public:
     Parameters:
             index, an integer passed by value. The position of the tile to retrieve.
     Return Value: A Tile object (by value).
-    Algorithm: Return the element at m_tiles[index].
+    Algorithm: Return the element at m_tiles.at(index).
     Reference: None
     ********************************************************************* */
-    inline Tile getTileAtIndex(int index) const { return m_tiles[index]; }
+    inline Tile getTileAtIndex(int index) const { return m_tiles.at(index); }
 
     /* *********************************************************************
     Function Name: getHandScore
