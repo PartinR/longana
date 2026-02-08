@@ -106,7 +106,7 @@ bool Serializer::loadGame(const std::string& filename, Tournament& tournament) {
     std::string line, key;
     std::string currentSection;
 
-    // Tempory storage of turn flags
+    // Temporary storage of turn flags
     bool tempPreviousPassed = false;
     bool isHumanTurn = true;
 
@@ -189,6 +189,7 @@ bool Serializer::loadGame(const std::string& filename, Tournament& tournament) {
         // --- Parse Turn Flags ---
         else if (key == "Previous:") {
             std::string temp;
+            // Eat 'Player' and 'Passed:'
             ss >> temp;
             ss >> temp;
             
@@ -198,6 +199,7 @@ bool Serializer::loadGame(const std::string& filename, Tournament& tournament) {
         }
         else if (key == "Next") {
             std::string temp;
+            // Eat 'Player:'
             ss >> temp;
 
             std::string val;
