@@ -14,36 +14,64 @@
 #include "Stock.h"
 #include "Tile.h"
 
- /* *********************************************************************
- Function Name: drawTile
- Purpose: To retrieve the next available tile from the boneyard and
+/* *********************************************************************
+Function Name: drawTile
+Purpose: To retrieve the next available tile from the boneyard and
         remove it from the stock collection.
- Parameters:
+Parameters:
         destination, a Tile object passed by reference. This object
             is updated with the data from the drawn tile.
- Return Value: 
+Return Value: 
         Boolean true if a tile was available to be drawn, false
             if the stock was empty.
- Algorithm:
+Algorithm:
         1. Check if the m_tiles vector is empty.
         2. If empty, return false.
         3. If not empty, assign the last element of the vector to
             the destination parameter.
         4. Remove that last element from the vector using pop_back().
         5. Return true.
- Reference: None
- ********************************************************************* */
+Reference: None
+********************************************************************* */
 bool Stock::drawTile(Tile& destination) {
     // Verify that there are tiles left in the boneyard to draw
     if (m_tiles.empty()) {
         return false;
     }
     else {
-        // Treat the end of the vector as the "top" of the pile for efficiency
+        // Treat the end of the vector as the "top" of the pile
         destination = m_tiles.back();
         m_tiles.pop_back();
         return true;
     }
+}
+
+/* *********************************************************************
+Function Name: removeSpecificTile
+Purpose: Searches the boneyard for a specific tile and removes it.
+        Used to ensure the Engine is not duplicated if it starts in the stock.
+Parameters:
+        target, a Tile object passed by const reference.
+Return Value: true if found and removed, false otherwise.
+Algorithm:
+        1. Iterate through the m_tiles vector using an index.
+        2. Compare each tile to the target tile using the == operator.
+        3. If a match is found, use the erase method with an iterator
+            at the current index to remove the tile.
+        4. Return true if removed; return false if the loop completes
+            without finding the target.
+Reference: None
+********************************************************************* */
+bool Stock::removeSpecificTile(const Tile& target) {
+    for (int i = 0; i < m_tiles.size(); ++i) {
+        // Use overloaded Tile equality operator to find a match
+        if (m_tiles[i] == target) {
+            m_tiles.erase(m_tiles.begin() + i);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /* *********************************************************************
@@ -94,33 +122,6 @@ void Stock::printStock() const {
     }
 
     std::cout << std::endl;
-}
-
-/* *********************************************************************
-Function Name: removeSpecificTile
-Purpose: Searches the boneyard for a specific tile and removes it.
-        Used to ensure the Engine is not duplicated if it starts in the stock.
-Parameters:
-        target, a Tile object passed by const reference.
-Return Value: true if found and removed, false otherwise.
-Algorithm:
-        1. Iterate through the m_tiles vector using an index.
-        2. Compare each tile to the target tile using the == operator.
-        3. If a match is found, use the erase method with an iterator
-            at the current index to remove the tile.
-        4. Return true if removed; return false if the loop completes
-            without finding the target.
-Reference: None
-********************************************************************* */
-bool Stock::removeSpecificTile(const Tile& target) {
-    for (int i = 0; i < m_tiles.size(); ++i) {
-        // Use overloaded Tile equality operator to find a match
-        if (m_tiles[i] == target) {
-            m_tiles.erase(m_tiles.begin() + i);
-            return true;
-        }
-    }
-    return false;
 }
 
 /* *********************************************************************
@@ -179,12 +180,29 @@ void Stock::loadFromString(const std::string& data) {
     }
 }
 
+/* *********************************************************************
+Function Name: initializeFullSet
+Purpose: Generates a standard double-six domino set. This function ensures
+        the stock is reset to a full, starting state for a new round.
+Parameters: None
+Return Value: None (void)
+Algorithm:
+        1. Clear any existing tiles from the m_tiles vector to prevent
+            duplicates or carry-over from previous rounds.
+        2. Use a nested for-loop where the outer index 'left' represents
+            the first side and the inner index 'right' represents the second.
+        3. Start the inner loop at 'left' (right = left) to ensure only unique
+            pairs are created (e.g., creating 1-2 but skipping 2-1).
+        4. Instantiate a Tile object for each pair and add it to the
+            m_tiles container.
+Reference: None
+********************************************************************* */
 void Stock::initializeFullSet() {
     m_tiles.clear();
     // Double loop to generate all unique domino pairs (0-0 through 6-6)
-    for (int i = 0; i <= 6; ++i) {
-        for (int j = i; j <= 6; ++j) {
-            m_tiles.push_back(Tile(i, j));
+    for (int left = 0; left <= 6; ++left) {
+        for (int right = left; right <= 6; ++right) {
+            m_tiles.push_back(Tile(left, right));
         }
     }
 }
