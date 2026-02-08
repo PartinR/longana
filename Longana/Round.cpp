@@ -148,6 +148,7 @@ void Round::playRound(const Tournament& tournament) {
 
                     if (Serializer::saveGame(filename, tournament)) {
                         std::cout << "Game saved successfully to " << filename << std::endl;
+                        std::exit(0);
                     }
                     else {
                         std::cout << "Game save was unsuccessful" << std::endl;
