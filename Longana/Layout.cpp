@@ -157,10 +157,8 @@ Purpose: Prints the current state of the board to the console, showing
 Parameters: None
 Return Value: None (void)
 Algorithm:
-        1. Print "L".
-        2. Iterate through m_layout deque from begin to end.
-        3. Print each tile.
-        4. Print "R".
+        1. Iterate through m_layout deque from begin to end.
+        2. Print each tile.
 Reference: None
 ********************************************************************* */
 void Layout::displayLayout() const {
@@ -191,6 +189,7 @@ Reference: None
 std::string Layout::toString() const {
     std::string layoutStr = "L ";
 
+    // Cycle through layout and populate layoutStr
     for (const Tile& tile : m_layout) {
         layoutStr += std::to_string(tile.getLeftPips()) + "-" + std::to_string(tile.getRightPips()) + " ";
     }

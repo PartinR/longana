@@ -44,7 +44,7 @@ public:
     Algorithm: Standard deque destructor handles memory cleanup automatically.
     Reference: None
     ********************************************************************* */
-    ~Layout() { m_layout.clear(); }
+    ~Layout() = default;
 
     /* --- Selectors --- */
 
@@ -119,24 +119,38 @@ public:
     Algorithm: Push the engine tile into the empty deque.
     Reference: None
     ********************************************************************* */
-    inline void setEngine(const Tile& t) { m_layout.push_back(t); }
+    inline void setEngine(const Tile& tile) { m_layout.push_back(tile); }
 
+    /* *********************************************************************
+    Function Name: clearLayout
+    Purpose: To remove all tiles from the current game layout, resetting
+            the board to an empty state. This is typically used when
+            starting a new round or re-initializing the game state.
+    Parameters: None
+    Return Value: None (void)
+    Algorithm:
+            1. Call the clear() method on the m_layout vector (or container).
+            2. The container's size is reduced to zero, and memory is
+                managed by the standard library.
+    Reference: None
+    ********************************************************************* */
     inline void clearLayout() { m_layout.clear(); }
 
     /* --- Utility Functions --- */
 
     /* *********************************************************************
     Function Name: isLegalMove
-    Purpose: Determines if a specific tile can be legally placed on a specific
-             side of the board.
+    Purpose: Checks if a tile can be placed on a specific side without
+            modifying the board state.
     Parameters:
-             tile, a Tile object passed by const reference. The tile to check.
-             side, a char passed by value. 'L' for Left, 'R' for Right.
-    Return Value: true if the move matches the pips, false otherwise.
+            tile, a Tile object passed by const reference.
+            side, a char indicating 'L' or 'R'.
+    Return Value: Boolean true if the move is legal, false otherwise.
     Algorithm:
-             1. If side is 'L', compare tile pips to getLeftEdge().
-             2. If side is 'R', compare tile pips to getRightEdge().
-             3. Return true if a match is found (considering both orientations).
+            1. If the board is empty, any tile is legal.
+            2. If side is 'L', check if either side of the tile matches the left edge.
+            3. If side is 'R', check if either side of the tile matches the right edge.
+            4. Return the result of the check.
     Reference: None
     ********************************************************************* */
     bool isLegalMove(const Tile& tile, char side) const;
@@ -164,10 +178,8 @@ public:
     Parameters: None
     Return Value: None (void)
     Algorithm:
-             1. Print "L".
-             2. Iterate through m_layout deque from begin to end.
-             3. Print each tile.
-             4. Print "R".
+             1. Iterate through m_layout deque from begin to end.
+             2. Print each tile.
     Reference: None
     ********************************************************************* */
     void displayLayout() const;
