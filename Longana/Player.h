@@ -53,7 +53,9 @@ public:
     Algorithm: Standard virtual destructor behavior.
     Reference: None
     ********************************************************************* */
-    virtual ~Player() {}
+    virtual ~Player() {
+        m_hand.clearHand();
+    }
 
     /* --- Selectors --- */
 

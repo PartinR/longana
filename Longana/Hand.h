@@ -43,7 +43,9 @@ public:
     Algorithm: Standard vector destructor handles memory cleanup automatically.
     Reference: None
     ********************************************************************* */
-    virtual ~Hand() {}
+    virtual ~Hand() {
+        m_tiles.clear();
+    }
 
     /* --- Selectors --- */
 

@@ -44,7 +44,9 @@ public:
     Algorithm: Standard deque destructor handles memory cleanup automatically.
     Reference: None
     ********************************************************************* */
-    ~Layout() {}
+    ~Layout() {
+        m_layout.clear();
+    }
 
     /* --- Selectors --- */
 
