@@ -34,7 +34,9 @@ bool Player::removeSpecificTile(const Tile& target) {
         if (tile.getLeftPips() == target.getLeftPips() &&
             tile.getRightPips() == target.getRightPips()) {
 
+            // Create temporary tile
             Tile temp;
+
             // Remove the tile from the hand to prepare it for placement on the board
             m_hand.playTile(i, temp);
             return true;

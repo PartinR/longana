@@ -13,18 +13,14 @@
 #include "Stock.h"
 #include "Tile.h"
 
- /* *********************************************************************
- Class Name: Player
- Purpose: An abstract base class representing a generic player in the
-          Longana game. It manages the common state (Hand and Score) and
-          defines the interface for playing a turn, which must be implemented
-          by derived classes (Human and Computer).
- ********************************************************************* */
+/* *********************************************************************
+Class Name: Player
+Purpose: An abstract base class representing a generic player in the
+        Longana game. It manages the common state (Hand and Score) and
+        defines the interface for playing a turn, which must be implemented
+        by derived classes (Human and Computer).
+********************************************************************* */
 class Player {
-protected:
-    Hand m_hand;
-    int m_score;
-
 public:
 
     /* --- Constructor --- */
@@ -32,12 +28,12 @@ public:
     /* *********************************************************************
     Function Name: Player
     Purpose: Default constructor. Initializes a new player with a score of 0
-             and an empty hand.
+            and an empty hand.
     Parameters: None
     Return Value: None
     Algorithm:
-             1. Initialize m_score to 0.
-             2. Hand constructor is called implicitly.
+            1. Initialize m_score to 0.
+            2. Hand constructor is called implicitly.
     Reference: None
     ********************************************************************* */
     Player() : m_score(0) {}
@@ -47,13 +43,13 @@ public:
     /* *********************************************************************
     Function Name: ~Player
     Purpose: Virtual destructor. Ensures proper cleanup of resources when
-             a derived class object is deleted through a base class pointer.
+            a derived class object is deleted through a base class pointer.
     Parameters: None
     Return Value: None
     Algorithm: Standard virtual destructor behavior.
     Reference: None
     ********************************************************************* */
-    virtual ~Player() { m_hand.clearHand(); }
+    virtual ~Player() = default;
 
     /* --- Selectors --- */
 
@@ -66,6 +62,19 @@ public:
     Reference: None
     ********************************************************************* */
     inline const Hand& getHand() const { return m_hand; }
+
+    /* *********************************************************************
+    Function Name: getHand
+    Purpose: To retrieve a reference to the player's Hand object. This
+            allows other components (like the View or Controller) to
+            inspect or modify the tiles held by the player.
+    Parameters: None
+    Return Value: A reference to a Hand object (Hand&).
+    Algorithm:
+            1. Return the m_hand member variable by reference.
+    Reference: None
+    ********************************************************************* */
+    inline Hand& getHand() { return m_hand; }
 
     /* *********************************************************************
     Function Name: getScore
@@ -81,7 +90,7 @@ public:
     Function Name: setScore
     Purpose: Updates the player's total score (e.g., after a round ends).
     Parameters:
-             score, an integer passed by value. The new total score.
+            score, an integer passed by value. The new total score.
     Return Value: None (void)
     Algorithm: Assign the parameter score to m_score.
     Reference: None
@@ -94,27 +103,28 @@ public:
     Function Name: addTileToHand
     Purpose: Adds a single tile to the player's hand.
     Parameters:
-             tile, a Tile object passed by const reference.
+            tile, a Tile object passed by const reference.
     Return Value: None (void)
     Algorithm: Delegate to m_hand.addTile(tile).
     Reference: None
     ********************************************************************* */
     inline void addTileToHand(const Tile& tile) { m_hand.addTile(tile); }
 
-    inline Hand& getHand() { return m_hand; }
-
     /* *********************************************************************
     Function Name: removeSpecificTile
-    Purpose: Searches for and removes a specific tile from the hand. This is
-             primarily used at the start of a round to remove the Engine tile
-             if the player holds it.
+    Purpose: Searches the player's hand for a specific tile and removes it if
+            found. This is used for placing the Engine tile at the start of
+            a round.
     Parameters:
-             target, a Tile object passed by const reference. The tile to find.
-    Return Value: true if the tile was found and removed, false otherwise.
+            target, a Tile object passed by const reference. The tile to find.
+    Return Value: Boolean true if the tile was found and removed, false otherwise.
     Algorithm:
-             1. Iterate through the hand to find the index of the target tile.
-             2. If found, call m_hand.playTile() to remove it.
-             3. Return the result.
+            1. Iterate through the player's hand using a loop from 0 to hand size.
+            2. For each tile, compare its left and right pips to the target tile.
+            3. If a match is found:
+                a. Use the hand's playTile method to remove the tile at that index.
+                b. Return true immediately.
+            4. If the loop completes without a match, return false.
     Reference: None
     ********************************************************************* */
     bool removeSpecificTile(const Tile& target);
@@ -129,7 +139,7 @@ public:
     Algorithm: Return m_hand.isEmpty().
     Reference: None
     ********************************************************************* */
-    bool isHandEmpty() const { return m_hand.isEmpty(); }
+    inline bool isHandEmpty() const { return m_hand.isEmpty(); }
 
     /* *********************************************************************
     Function Name: getHandSize
@@ -139,21 +149,25 @@ public:
     Algorithm: Return m_hand.getSize().
     Reference: None
     ********************************************************************* */
-    int getHandSize() const { return m_hand.getSize(); }
+    inline int getHandSize() const { return m_hand.getSize(); }
 
     /* *********************************************************************
     Function Name: playTurn
     Purpose: Pure virtual function defining the interface for a turn.
-             Derived classes must implement their specific turn logic here.
+            Derived classes must implement their specific turn logic here.
     Parameters:
-             layout, a Layout object passed by reference.
-             stock, a Stock object passed by reference.
-             opponentPassed, a boolean indicating if the opponent passed.
+            layout, a Layout object passed by reference.
+            stock, a Stock object passed by reference.
+            opponentPassed, a boolean indicating if the opponent passed.
     Return Value: true if a move was made, false if passed.
     Algorithm: N/A (Abstract function)
     Reference: None
     ********************************************************************* */
     virtual bool playTurn(Layout& layout, Stock& stock, bool opponentPassed) = 0;
+
+protected:
+    Hand m_hand;
+    int m_score;
 
 };
 
