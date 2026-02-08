@@ -12,13 +12,13 @@
 #include <string>
 #include "Tile.h"
 
- /* *********************************************************************
- Class Name: Stock
- Purpose: Represents the 'Boneyard' in a Longana game. This class manages
-          the pool of available domino tiles, including their initial
-          generation (a standard double-six set), shuffling, and the
-          mechanism for players to draw tiles during a round.
- ********************************************************************* */
+/* *********************************************************************
+Class Name: Stock
+Purpose: Represents the 'Boneyard' in a Longana game. This class manages
+        the pool of available domino tiles, including their initial
+        generation (a standard double-six set), shuffling, and the
+        mechanism for players to draw tiles during a round.
+********************************************************************* */
 class Stock {
 public:
 

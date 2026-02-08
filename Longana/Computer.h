@@ -16,9 +16,9 @@
 /* *********************************************************************
 Class Name: Computer
 Purpose: Represents the computer player in the Longana game.
-          Inherits from the Player class and implements specific logic
-          which is placing the first possible move and favoring the 
-          Computer's side.
+        Inherits from the Player class and implements specific logic
+        which is placing the first possible move and favoring the 
+        Computer's side.
 ********************************************************************* */
 class Computer : public Player {
 public:

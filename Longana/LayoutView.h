@@ -12,13 +12,13 @@
 #include "Layout.h"
 #include "Hand.h"
 
- /* *********************************************************************
- Class Name: LayoutView
- Purpose: Acts as the "View" component in the application. It is strictly
-          responsible for handling output to the console. It decouples the
-          game logic from the visualization logic by providing specific
-          functions to render the Board, Hands, and status messages.
- ********************************************************************* */
+/* *********************************************************************
+Class Name: LayoutView
+Purpose: Acts as the "View" component in the application. It is strictly
+        responsible for handling output to the console. It decouples the
+        game logic from the visualization logic by providing specific
+        functions to render the Board, Hands, and status messages.
+********************************************************************* */
 class LayoutView {
 public:
 

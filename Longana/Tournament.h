@@ -13,13 +13,13 @@
 #include "Layout.h"
 #include "Stock.h"
 
- /* *********************************************************************
- Class Name: Tournament
- Purpose: Acts as the high-level controller for the Longana game. It
-          manages the overall tournament state, including the target score
-          set by the user, the accumulation of points across multiple
-          rounds, and the determination of the final winner.
- ********************************************************************* */
+/* *********************************************************************
+Class Name: Tournament
+Purpose: Acts as the high-level controller for the Longana game. It
+        manages the overall tournament state, including the target score
+        set by the user, the accumulation of points across multiple
+        rounds, and the determination of the final winner.
+********************************************************************* */
 class Tournament {
 public:
 
@@ -53,7 +53,7 @@ public:
     Algorithm: Standard object destruction.
     Reference: None
     ********************************************************************* */
-    ~Tournament() {}
+    ~Tournament() = default;
 
     /* --- Selectors --- */
 

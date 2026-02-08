@@ -13,12 +13,12 @@
 
 #include "Tile.h"
 
- /* *********************************************************************
- Class Name: Hand
- Purpose: Represents a player's hand in the Longana game. It manages a
-          dynamic collection of Tile objects, allowing for adding tiles
-          (drawing) and removing tiles (playing).
- ********************************************************************* */
+/* *********************************************************************
+Class Name: Hand
+Purpose: Represents a player's hand in the Longana game. It manages a
+        dynamic collection of Tile objects, allowing for adding tiles
+        (drawing) and removing tiles (playing).
+********************************************************************* */
 class Hand {
 public:
     /* --- Constructor --- */

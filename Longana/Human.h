@@ -13,12 +13,12 @@
 #include "Stock.h"
 #include "Tile.h"
 
- /* *********************************************************************
- Class Name: Human
- Purpose: Represents the human player in the Longana game. Inherits from
-          the Player class and implements logic to interact with the user via
-          console input to play turns, validate moves, and draw tiles.
- ********************************************************************* */
+/* *********************************************************************
+Class Name: Human
+Purpose: Represents the human player in the Longana game. Inherits from
+        the Player class and implements logic to interact with the user via
+        console input to play turns, validate moves, and draw tiles.
+********************************************************************* */
 class Human : public Player {
 public:
 

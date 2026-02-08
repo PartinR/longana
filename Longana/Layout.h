@@ -13,12 +13,12 @@
 #include "Tile.h"
 #include "Hand.h"
 
- /* *********************************************************************
- Class Name: Layout
- Purpose: Manages the central game board (the line of play) in Longana.
-          It utilizes a double-ended queue (deque) to allow efficient
-          addition of tiles to both the left and right ends of the layout.
- ********************************************************************* */
+/* *********************************************************************
+Class Name: Layout
+Purpose: Manages the central game board (the line of play) in Longana.
+        It utilizes a double-ended queue (deque) to allow efficient
+        addition of tiles to both the left and right ends of the layout.
+********************************************************************* */
 class Layout {
 public:
     /* --- Constructor --- */

@@ -10,13 +10,13 @@
 
 #include <string>
 
- /* *********************************************************************
- Class Name: Tile
- Purpose: Models a single domino tile used in the Longana game. Each tile
-          contains two sides, referred to as "left" and "right" pips,
-          ranging from 0 to 6. This class provides the fundamental data
-          structure for the game's logic.
- ********************************************************************* */
+/* *********************************************************************
+Class Name: Tile
+Purpose: Models a single domino tile used in the Longana game. Each tile
+        contains two sides, referred to as "left" and "right" pips,
+        ranging from 0 to 6. This class provides the fundamental data
+        structure for the game's logic.
+********************************************************************* */
 class Tile {
 public:
     /* --- Constructors --- */

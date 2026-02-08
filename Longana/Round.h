@@ -16,13 +16,13 @@
 
 class Tournament;
 
- /* *********************************************************************
- Class Name: Round
- Purpose: Manages the execution of a single round of Longana. It is
-          responsible for setting up the round (dealing tiles, finding the engine),
-          alternating turns between the Human and Computer, and detecting
-          end-of-round conditions (empty hand or blocked game).
- ********************************************************************* */
+/* *********************************************************************
+Class Name: Round
+Purpose: Manages the execution of a single round of Longana. It is
+        responsible for setting up the round (dealing tiles, finding the engine),
+        alternating turns between the Human and Computer, and detecting
+        end-of-round conditions (empty hand or blocked game).
+********************************************************************* */
 class Round {
 public:
 
