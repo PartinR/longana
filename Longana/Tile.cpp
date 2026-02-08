@@ -79,7 +79,7 @@ Reference: None
 ********************************************************************* */
 bool Tile::setLeftPips(int pips) {
     // Ensure the new value follows double-six domino set constraints
-    if (pips < MIN_PIPS || pips > MAX_PIPS) return false;
+    if (pips < MIN_PIPS || pips > MAX_PIPS) { return false; }
 
     m_left_pips = pips;
     return true;
@@ -99,7 +99,7 @@ Reference: None
 ********************************************************************* */
 bool Tile::setRightPips(int pips) {
     // Ensure the new value follows double-six domino set constraints
-    if (pips < MIN_PIPS || pips > MAX_PIPS) return false;
+    if (pips < MIN_PIPS || pips > MAX_PIPS) { return false; }
 
     m_right_pips = pips;
     return true;

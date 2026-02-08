@@ -36,16 +36,17 @@ public:
 
     /* *********************************************************************
     Function Name: Tile
-    Purpose: Overloaded constructor to create a tile with specific pip values.
+    Purpose: Overloaded constructor to create a tile with specific pip values,
+            validating that they fall within the legal range of 0 to 6.
     Parameters:
-             left, an integer passed by value. Represents the pips on the
-                   left side.
-             right, an integer passed by value. Represents the pips on the
-                    right side.
+            left, an integer passed by value. The pips for the left side.
+            right, an integer passed by value. The pips for the right side.
     Return Value: None
     Algorithm:
-             1. Assign left parameter to m_left_pips.
-             2. Assign right parameter to m_right_pips.
+            1. Check if the 'left' parameter is between MIN_PIPS and MAX_PIPS.
+            2. If valid, assign to m_left_pips; otherwise, default to 0.
+            3. Check if the 'right' parameter is between MIN_PIPS and MAX_PIPS.
+            4. If valid, assign to m_right_pips; otherwise, default to 0.
     Reference: None
     ********************************************************************* */
     Tile(int left, int right);
@@ -55,13 +56,13 @@ public:
     /* *********************************************************************
     Function Name: ~Tile
     Purpose: Destructor for the Tile class. Performs no special cleanup as
-             the class does not use dynamic memory.
+            the class does not use dynamic memory.
     Parameters: None
     Return Value: None
     Algorithm: Standard object destruction.
     Reference: None
     ********************************************************************* */
-    ~Tile() {}
+    ~Tile() = default;
 
     /* --- Selectors --- */
 
@@ -107,43 +108,45 @@ public:
 
     /* *********************************************************************
     Function Name: operator==
-    Purpose: Overloads the equality operator to compare two Tile objects.
-             Matches tiles regardless of orientation (e.g., [1|2] == [2|1]).
+    Purpose: Determines if two tiles are identical, accounting for the fact
+            that a domino can be oriented in two ways.
     Parameters:
-             other, a Tile object passed by const reference.
-    Return Value: true if the tiles represent the same pair of pips, false otherwise.
+            other, a constant Tile reference. The tile to compare against.
+    Return Value: Boolean true if the tiles are the same pair, false otherwise.
     Algorithm:
-             1. Check if left pips match other's left and right pips match other's right.
-             2. Check if left pips match other's right and right pips match other's left.
-             3. Return true if either condition is true.
+            1. Compare this tile's left to other's left AND this tile's right to other's right.
+            2. Compare this tile's left to other's right AND this tile's right to other's left.
+            3. Return true if either the standard match or the flipped match is true.
     Reference: None
-    ********************************************************************* */
+    ******************************************************************** */
     bool operator==(const Tile& other) const;
 
     /* --- Mutators --- */
 
     /* *********************************************************************
     Function Name: setLeftPips
-    Purpose: Updates the number of pips on the left side of the tile.
+    Purpose: Safely updates the pip value on the left side of the tile.
     Parameters:
-             pips, an integer passed by value. The new pip count.
-    Return Value: true if the update was valid (within 0-6), false otherwise.
+            pips, an integer passed by value.
+    Return Value: Boolean true if the update was valid and successful, else false.
     Algorithm:
-             1. Verify pips is between MIN_PIPS and MAX_PIPS.
-             2. If valid, update m_left_pips and return true.
+            1. Check if the pips value is outside the 0-6 range.
+            2. If out of range, return false immediately.
+            3. Otherwise, assign the value to m_left_pips and return true.
     Reference: None
     ********************************************************************* */
     bool setLeftPips(int pips);
 
     /* *********************************************************************
     Function Name: setRightPips
-    Purpose: Updates the number of pips on the right side of the tile.
+    Purpose: Safely updates the pip value on the right side of the tile.
     Parameters:
-             pips, an integer passed by value. The new pip count.
-    Return Value: true if the update was valid (within 0-6), false otherwise.
+            pips, an integer passed by value.
+    Return Value: Boolean true if the update was valid and successful, else false.
     Algorithm:
-             1. Verify pips is between MIN_PIPS and MAX_PIPS.
-             2. If valid, update m_right_pips and return true.
+            1. Check if the pips value is outside the 0-6 range.
+            2. If out of range, return false immediately.
+            3. Otherwise, assign the value to m_right_pips and return true.
     Reference: None
     ********************************************************************* */
     bool setRightPips(int pips);
@@ -152,17 +155,29 @@ public:
 
     /* *********************************************************************
     Function Name: flipTile
-    Purpose: Reverses the orientation of the tile, swapping left and right pips.
+    Purpose: Swaps the left and right pip values of the tile to change its
+            orientation on the board.
     Parameters: None
     Return Value: None (void)
     Algorithm:
-             1. Store m_left_pips in a temporary variable.
-             2. Assign m_right_pips to m_left_pips.
-             3. Assign the temporary variable to m_right_pips.
+            1. Store the left pips in a temporary integer variable.
+            2. Assign the right pips value to the left pips variable.
+            3. Assign the temporary value to the right pips variable.
     Reference: None
     ********************************************************************* */
     void flipTile();
 
+    /* *********************************************************************
+    Function Name: toString
+    Purpose: Generates a string representation of the tile for file saving.
+    Parameters: None
+    Return Value: A std::string in the format "L-R" (e.g., "6-1").
+    Algorithm:
+            1. Convert m_left_pips to string.
+            2. Concatenate a dash.
+            3. Convert m_right_pips to string and concatenate.
+    Reference: None
+    ********************************************************************* */
     std::string toString() const;
 
 private:
