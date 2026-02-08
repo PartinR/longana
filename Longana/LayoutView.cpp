@@ -13,7 +13,7 @@
 #include "Stock.h"
 #include "Tile.h"
 
- /* *********************************************************************
+/* *********************************************************************
 Function Name: displayHeader
 Purpose: To provide a formatted visual header at the start of each round,
         displaying essential game state metadata to the user.

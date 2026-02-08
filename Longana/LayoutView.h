@@ -26,42 +26,50 @@ public:
 
     /* *********************************************************************
     Function Name: displayHeader
-    Purpose: Prints the standard header information at the start of a round
-             or turn, including the Round Number, the Engine being played,
-             and the status of the Boneyard.
+    Purpose: To provide a formatted visual header at the start of each round,
+            displaying essential game state metadata to the user.
     Parameters:
-             roundNumber, an integer passed by value. The current round index.
-             engineValue, an integer passed by value. The pip value of the engine (e.g., 6).
-             stock, a Stock object passed by const reference. Used to display the boneyard contents.
+            roundNumber, an integer passed by value. The current round index.
+            engineValue, an integer passed by value. The pip value of the engine.
+            stock, a Stock object passed by const reference. Used to query the boneyard count.
     Return Value: None (void)
     Algorithm:
-             1. Print formatted lines for Round Number and Engine.
-             2. Delegate to stock.printStock() (or similar) to display the boneyard.
+            1. Print a leading newline for spacing.
+            2. Print the round number inside decorative borders.
+            3. Display the required engine value for the round.
+            4. Query the stock for the remaining tile count and print it.
     Reference: None
     ********************************************************************* */
     void displayHeader(int roundNumber, int engineValue, const Stock& stock) const;
 
     /* *********************************************************************
     Function Name: displayBoard
-    Purpose: Renders the central game board (the layout) to the console.
+    Purpose: To render the current line of play (the layout) to the console
+            so the player can see the available pips on the Left and Right ends.
     Parameters:
-             layout, a Layout object passed by const reference. The board state to render.
+            layout, a Layout object passed by const reference.
     Return Value: None (void)
     Algorithm:
-             1. Print a label (e.g., "Layout:").
-             2. Call the layout object's internal display function (layout.displayLayout()).
+            1. Print the "Current Board Layout" label.
+            2. Print the "L" marker to indicate the Human's end.
+            3. Call the layout's internal display function to print the tile chain.
+            4. Print the "R" marker to indicate the Computer's end.
     Reference: None
     ********************************************************************* */
     void displayBoard(const Layout& layout) const;
 
     /* *********************************************************************
     Function Name: displayHand
-    Purpose: Renders a specific player's hand to the console.
+    Purpose: To print the player's current tiles with associated indices,
+            allowing the user to make a selection by number.
     Parameters:
-             hand, a Hand object passed by const reference. The hand to display.
+            hand, a Hand object passed by const reference.
     Return Value: None (void)
     Algorithm:
-             1. Call the hand object's internal display function (hand.displayHand()).
+            1. Print the "Player's Hand" label.
+            2. Iterate through the hand based on its size.
+            3. For each tile, print the 1-based index followed by the tile's pip values.
+            4. Ensure all tiles are printed on a single line for readability.
     Reference: None
     ********************************************************************* */
     void displayHand(const Hand& hand) const;
