@@ -74,7 +74,7 @@ public:
             1. Return the m_hand member variable by reference.
     Reference: None
     ********************************************************************* */
-    inline Hand& getHand() { return m_hand; }
+    Hand& getHand() { return m_hand; }
 
     /* *********************************************************************
     Function Name: getScore
@@ -85,17 +85,6 @@ public:
     Reference: None
     ********************************************************************* */
     inline int getScore() const { return m_score; }
-
-    /* *********************************************************************
-    Function Name: setScore
-    Purpose: Updates the player's total score (e.g., after a round ends).
-    Parameters:
-            score, an integer passed by value. The new total score.
-    Return Value: None (void)
-    Algorithm: Assign the parameter score to m_score.
-    Reference: None
-    ********************************************************************* */
-    inline void setScore(int score) { m_score = score; }
 
     /* --- Mutators --- */
 
@@ -128,6 +117,17 @@ public:
     Reference: None
     ********************************************************************* */
     bool removeSpecificTile(const Tile& target);
+
+    /* *********************************************************************
+    Function Name: setScore
+    Purpose: Updates the player's total score (e.g., after a round ends).
+    Parameters:
+            score, an integer passed by value. The new total score.
+    Return Value: None (void)
+    Algorithm: Assign the parameter score to m_score.
+    Reference: None
+    ********************************************************************* */
+    inline void setScore(int score) { m_score = score; }
 
     /* --- Utility Functions --- */
 
