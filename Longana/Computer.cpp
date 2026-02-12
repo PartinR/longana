@@ -74,11 +74,14 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
             layout.addRightTile(played);
             std::cout << "Computer placed " << played.getLeftPips() << "-" << played.getRightPips() 
                 << " on the RIGHT." << std::endl;
+            std::cout << "Reason: Computer prioritizes its own side." << std::endl;
         }
         else {
             layout.addLeftTile(played);
             std::cout << "Computer placed " << played.getLeftPips() << "-" << played.getRightPips() 
                 << " on the LEFT." << std::endl;
+            std::cout << "Reason: No moves are avaiable on its own side, however they are available on\n"
+                << "\tthe Human's side. And a move is better than no move." << std::endl;
         }
 
         return true;
@@ -92,6 +95,7 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
     }
 
     // Draw a single tile from the boneyard and add it to the Computer's Hand
+    std::cout << "No legal moves, the Computer must draw from the boneyard." << std::endl;
     Tile drawn;
     stock.drawTile(drawn);
     m_hand.addTile(drawn);
@@ -113,10 +117,13 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
         if (fitR) {
             layout.addRightTile(played);
             std::cout << "Computer placed drawn tile on RIGHT." << std::endl;
+            std::cout << "Reason: The drawn tile fits on the Computer's side, which is its main priority." << std::endl;
         }
         else {
             layout.addLeftTile(played);
             std::cout << "Computer placed drawn tile on LEFT." << std::endl;
+            std::cout << "Reason: The drawn tile does not fit on its own side, however it fits on the Human's\n"
+                << "\tside and a move is better than no move." << std::endl;
         }
 
         return true;
@@ -124,6 +131,7 @@ bool Computer::playTurn(Layout& layout, Stock& stock, bool opponentPassed) {
 
     // If even the drawn tile cannot be played, the Computer passes
     std::cout << "Computer passes." << std::endl;
+    std::cout << "Reason: Even the drawn tile does not fit on the board. Turn is forfeited." << std::endl;
     return false;
 }
 
