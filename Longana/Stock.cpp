@@ -40,8 +40,8 @@ bool Stock::drawTile(Tile& destination) {
     }
     else {
         // Treat the end of the vector as the "top" of the pile
-        destination = m_tiles.back();
-        m_tiles.pop_back();
+        destination = m_tiles.front();
+        m_tiles.erase(m_tiles.begin());
         return true;
     }
 }
