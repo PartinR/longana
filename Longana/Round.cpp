@@ -150,14 +150,54 @@ void Round::prepareRound(int roundNumber) {
     }
     else {
         // Neither has it; draw from stock and place it
-        std::cout << " >> Neither player holds the Engine " << pips << "-" << pips << ".\n";
-        std::cout << " >> Engine placed from boneyard. Human starts.\n";
+        std::cout << " >> Neither player holds the Engine " << pips << "-" << pips << ".\n"
+            << " >> Players will draw from the boneyard alternatively until the Engine is found." << std::endl;
 
-        if (m_stock.removeSpecificTile(engineTile)) {
-            m_layout.setEngine(engineTile);
+        bool engineFound = false;
+
+        while (!engineFound && !m_stock.isEmpty()) {
+            // Human draws first
+            Tile drawn;
+            if (m_stock.drawTile(drawn)) {
+                m_human.getHand().addTile(drawn);
+                std::cout << "Human draws: " << drawn.getLeftPips() << "-" << drawn.getRightPips() << std::endl;
+
+                if (drawn == engineTile) {
+                    std::cout << " >> Engine found by Human. Human plays first." << std::endl;
+
+                    Tile played;
+                    int playedIndex = m_human.getHand().getSize() - 1;
+                    m_human.getHand().playTile(playedIndex, played);
+
+                    m_layout.setEngine(played);
+                    // Computer goes next because Human just played
+                    m_isHumanTurn = false;
+                    engineFound = true;
+                    break;
+                }
+            }
+
+            if (m_stock.isEmpty()) { break; }
+
+            if (m_stock.drawTile(drawn)) {
+                m_computer.getHand().addTile(drawn);
+                std::cout << "Computer draws: " << drawn.getLeftPips() << "-" << drawn.getRightPips() << std::endl;
+
+                if (drawn == engineTile) {
+                    std::cout << " >> Engine found by Computer. Computer plays first." << std::endl;
+
+                    Tile played;
+                    int playedIndex = m_computer.getHand().getSize() - 1;
+                    m_computer.getHand().playTile(playedIndex, played);
+
+                    m_layout.setEngine(played);
+                    // Human goes next because Human just played
+                    m_isHumanTurn = true;
+                    engineFound = true;
+                    break;
+                }
+            }
         }
-        // Default to Human if engine was in stock
-        m_isHumanTurn = true;
     }
 }
 
@@ -178,6 +218,101 @@ Reference: None
 ********************************************************************* */
 void Round::playRound(const Tournament& tournament) {
     bool roundOver = false;
+
+    if (m_layout.isEmpty()) { // Assuming Layout has isEmpty(). If not, check if m_layout.getCount() == 0
+
+        std::cout << " >> Game Loaded or Started with empty board. Locating Engine..." << std::endl;
+
+        // 1. Recalculate what the engine is for this round
+        int pips = 6 - ((m_roundNumber - 1) % 7);
+        Tile engineTile(pips, pips);
+        m_engineValue = pips;
+
+        bool humanHasEngine = false;
+        bool computerHasEngine = false;
+        bool enginePlayed = false;
+
+        // 2. Check Human Hand
+        for (int i = 0; i < m_human.getHand().getSize(); ++i) {
+            if (m_human.getHand().getTileAtIndex(i) == engineTile) {
+                humanHasEngine = true;
+                Tile played;
+                m_human.getHand().playTile(i, played);
+                m_layout.setEngine(played);
+                std::cout << " >> Human holds the Engine " << pips << "-" << pips << " and plays first.\n";
+
+                m_isHumanTurn = false; 
+                enginePlayed = true;
+                break;
+            }
+        }
+
+        // 3. Check Computer Hand (if Human didn't play it)
+        if (!enginePlayed) {
+            for (int i = 0; i < m_computer.getHand().getSize(); ++i) {
+                if (m_computer.getHand().getTileAtIndex(i) == engineTile) {
+                    computerHasEngine = true;
+                    Tile played;
+
+                    m_computer.getHand().playTile(i, played);
+                    m_layout.setEngine(played);
+                    std::cout << " >> Computer holds the Engine " << pips << "-" << pips << " and plays first.\n";
+                    m_isHumanTurn = true;
+                    enginePlayed = true;
+                    break;
+                }
+            }
+        }
+
+        // 4. Alternating Draw Logic (If neither had it initially)
+        if (!enginePlayed) {
+            std::cout << " >> Neither player holds the Engine " << pips << "-" << pips << ".\n";
+            std::cout << " >> Players will draw from the boneyard alternately until the Engine is found.\n";
+
+            while (!enginePlayed && !m_stock.isEmpty()) {
+                // -- Human Draw --
+                Tile drawn;
+                if (m_stock.drawTile(drawn)) {
+                    m_human.getHand().addTile(drawn);
+                    std::cout << "Human draws: " << drawn.getLeftPips() << "-" << drawn.getRightPips() << "\n";
+
+                    if (drawn == engineTile) {
+                        // Play it immediately
+                        Tile played;
+                        int lastIdx = m_human.getHand().getSize() - 1;
+                        m_human.getHand().playTile(lastIdx, played);
+                        m_layout.setEngine(played);
+
+                        std::cout << " >> Human found the Engine! Playing to layout.\n";
+                        m_isHumanTurn = false;
+                        enginePlayed = true;
+                        break;
+                    }
+                }
+
+                if (m_stock.isEmpty()) break;
+
+                // -- Computer Draw --
+                if (m_stock.drawTile(drawn)) {
+                    m_computer.getHand().addTile(drawn);
+                    std::cout << "Computer draws: " << drawn.getLeftPips() << "-" << drawn.getRightPips() << "\n";
+
+                    if (drawn == engineTile) {
+                        // Play it immediately
+                        Tile played;
+                        int lastIdx = m_computer.getHand().getSize() - 1;
+                        m_computer.getHand().playTile(lastIdx, played);
+                        m_layout.setEngine(played);
+
+                        std::cout << " >> Computer found the Engine! Playing to layout.\n";
+                        m_isHumanTurn = true; // Human goes next
+                        enginePlayed = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     while (!roundOver) {
         // Render the board before every move
