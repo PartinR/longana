@@ -406,6 +406,9 @@ void Round::help() {
         if (m_layout.isLegalMove(t, 'L')) {
             std::cout << "Suggestion: Play " << t.getLeftPips() << "-" << t.getRightPips()
                 << " on the LEFT" << std::endl;
+
+            std::cout << "Reason: This first tile matches the open pips on your side (LEFT).\n"
+                << "\tPlaying your own side is the standard move." << std::endl;
             foundMove = true;
             break;
         }
@@ -413,6 +416,10 @@ void Round::help() {
         if (m_computerPassed && m_layout.isLegalMove(t, 'R')) {
             std::cout << "Suggestion: Play " << t.getLeftPips() << "-" << t.getRightPips() 
                 << " on the RIGHT" << std::endl;
+            
+            std::cout << "Reason: You can play on the Computer's side (RIGHT) because\n"
+                << "\tthe computer passed on their previous turn and no moves are available on your side." << std::endl;
+
             foundMove = true;
             break;
         }
@@ -421,9 +428,11 @@ void Round::help() {
     if (!foundMove) {
         if (!m_stock.isEmpty()) {
             std::cout << "No moves found. You Should DRAW." << std::endl;
+            std::cout << "Reason: You have no tiles that match either the left or right side." << std::endl;
         }
         else {
             std::cout << "No moves and boneyard is empty. You must PASS." << std::endl;
+            std::cout << "Reason: You have no legal moves and the boneyard is empty, you must forfeit your turn" << std::endl;
         }
     }
 }
