@@ -33,17 +33,30 @@ Reference: None
 int main() {
     // Create tournament object
     Tournament game;
-
-    // Display menu options to user
-    std::cout << "Welcome to Longana!\n"
-        << "1. Start New Game\n"
-        << "2. Load Game\n"
-        << ">> " << std::flush;
-
     int choice;
-    if (!(std::cin >> choice)) {
-        // Invalid input, exit
-        return 0;
+
+    while (true) {
+        // Display menu options to user
+        std::cout << "Welcome to Longana!\n"
+            << "1. Start New Game\n"
+            << "2. Load Game\n"
+            << ">> " << std::flush;
+
+        // Input validation block
+        if (!(std::cin >> choice)) {
+            // Scenario 1: Input was not an integer (e.g., "a")
+            std::cout << "Invalid input. Please enter a number.\n" << std::endl;
+            std::cin.clear(); // Reset the failbit
+            std::cin.ignore(1000, '\n'); // Clear the buffer
+        }
+        else if (choice != 1 && choice != 2) {
+            // Scenario 2: Input was an integer, but not 1 or 2
+            std::cout << "Invalid option. Please enter 1 or 2.\n" << std::endl;
+        }
+        else {
+            // Scenario 3: Valid input
+            break; // Exit the while loop
+        }
     }
 
     // Handle load game scenario
@@ -64,7 +77,6 @@ int main() {
     }
 
     // Execute the primary game loop through the tournament interface
-    // This will handle user input for target score and round coordination
     game.playTournament();
 
     return 0;
