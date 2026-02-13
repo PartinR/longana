@@ -27,9 +27,9 @@ Return Value:
 Algorithm:
         1. Check if the m_tiles vector is empty.
         2. If empty, return false.
-        3. If not empty, assign the last element of the vector to
+        3. If not empty, assign the first element of the vector to
             the destination parameter.
-        4. Remove that last element from the vector using pop_back().
+        4. Remove that first element from the vector using erase(m_tiles.begin()).
         5. Return true.
 Reference: None
 ********************************************************************* */
