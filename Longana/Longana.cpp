@@ -20,14 +20,15 @@ Parameters: None
 Return Value: Integer 0 upon successful completion.
 Algorithm:
         1. Instantiate a Tournament object named 'game'.
-        2. Display the main menu (Start New Game vs. Load Game).
-        3. Capture and validate user input.
-        4. If 'Load Game' is selected:
-            a. Prompt for the filename.
+        2. Continuously display the main menu (Start New Game vs. Load Game)
+            and validate input until a valid choice (1 or 2) is received.
+        3. If 'Load Game' (2) is selected:
+            a. Prompt the user for the target filename.
             b. Call Serializer::loadGame to populate the 'game' object.
-            c. Report success or failure.
-        5. Call the playTournament() method to begin the round-robin play.
-        6. Return 0 to the operating system.
+            c. Report success. If loading fails, output an error message
+                and default to starting a new game.
+        4. Call the playTournament() method to begin the primary game loop.
+        5. Return 0 to the operating system.
 Reference: None
 ********************************************************************* */
 int main() {
